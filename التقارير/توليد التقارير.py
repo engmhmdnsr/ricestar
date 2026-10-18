@@ -164,6 +164,7 @@ def build_r1():
 <div class="card"><div class="v">{fmt(nB)}</div><div class="l">إجمالي الشراء بعد نقل الأجرة (ج)</div></div>
 <div class="card"><div class="v">{fmt(nS-nB)}</div><div class="l">الربح قبل المصروفات (ج)</div></div>
 <div class="card"><div class="v">{fmt(nE - FULL)}</div><div class="l">إجمالي المصروفات (بدون بند الأجرة)</div></div>
+<div class="card"><div class="v">{fmt(FULL)}</div><div class="l">بند الضرب والناولون (لوحده)</div></div>
 <div class="card"><div class="v">{fmt(nNET)}</div><div class="l">صافي الربح بعد النقل (ج)</div></div>
 <div class="card"><div class="v">{abs(sell['tons']-buy['tons']):,.1f}</div><div class="l">مخزون آخر المدة (طن)</div></div>
 </div>"""
