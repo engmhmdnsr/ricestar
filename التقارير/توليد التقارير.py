@@ -197,6 +197,13 @@ def build_r1():
     for y, bt, st, bv, sv, _ in MP['YEARS']:
         t += f'<tr><td class="c">{y}</td><td class="n">{bt:,.1f}</td><td class="n">{st:,.1f}</td><td class="n">{fmt(bv)}</td><td class="n">{fmt(sv)}</td></tr>'
     t += '</table>'
+    t += '<h2>إجمالي الشكاير</h2><table><tr><th>البند</th><th class="n">سندات</th><th class="n">القيمة (ج)</th><th>المصدر</th></tr>'
+    t += f"<tr><td>مشتريات إكسل فترة أولى (صنف شكاير بكميات)</td><td class='n'>43</td><td class='n'>{fmt(1324058)}</td><td>{link(DB + '?s=4', 'مشتريات وموردين ف1')}</td></tr>"
+    t += f"<tr><td>مشتريات إكسل فترة ثانية (صنف شكاير بكميات)</td><td class='n'>166</td><td class='n'>{fmt(6349500)}</td><td>{link(DB + '?s=28', 'مشتريات وموردين ف2')}</td></tr>"
+    t += f"<tr><td>مشتريات برنامج (ward ومرتجعات، 17 صنف)</td><td class='n'>127</td><td class='n'>{fmt(5656720)}</td><td>{link(DB + '?s=124', 'جدول ward')}</td></tr>"
+    t += f"<tr><td>مصروفات إكسل لوازم إنتاج (نفس السطور في الملفين، محسوبة مرة واحدة)</td><td class='n'>9</td><td class='n'>{fmt(147656)}</td><td>{link(DB + '?s=3', 'مصروفات ف1')}</td></tr>"
+    t += f"<tr class='grand'><td>إجمالي الشكاير شراء ومصروفات</td><td class='n'>345</td><td class='n'>{fmt(1324058 + 6349500 + 5656720 + 147656)}</td><td></td></tr></table>"
+    t += f"<div class=\"note\">مبيعات شكاير: إكسل {fmt(285956)} ج ({link(DB + '?s=6', 'ف1')} + {link(DB + '?s=31', 'ف2')}) + برنامج {fmt(101625)} ج ({link(DB + '?s=123', 'جدول sadr')}).</div>"
     # program top items
     t += '<h2>أكبر بنود مصروفات البرنامج (م8)</h2><table><tr><th>البند</th><th class="n">سندات</th><th class="n">القيمة</th></tr>'
     for it in MP['PROG_ITEMS'][:10]:
