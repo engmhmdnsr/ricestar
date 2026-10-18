@@ -310,8 +310,71 @@ def build_r4():
     wb.close()
     return page('تقرير الأصناف للمحاسب - تعلب', 'شراء 59,109.9 طن · بيع 57,659.2 طن · الفرق 1,450.7 طن', t)
 
+# ================= R5: purchase totals by item =================
+def norm_ar(s):
+    s = str(s or '').strip()
+    s = s.replace('أ', 'ا').replace('إ', 'ا').replace('آ', 'ا').replace('ة', 'ه').replace('ى', 'ي')
+    return ' '.join(s.split())
+
+def build_r5():
+    TR = json.load(open('C:/Users/engmh/alrawda_check/tonrows.json', encoding='utf-8'))
+    MD = json.load(open('C:/Users/engmh/alrawda_check/money_data.json', encoding='utf-8'))
+    SKIP = {'ضرب ارز', 'نولون'}  # منقولة للمصروفات (م8-أجرة)، ليست شراء
+    agg = {}
+    def add(key, disp, src, rows, qty, val, unit=''):
+        a = agg.setdefault(key, {'disp': disp, 'P1': [0, 0.0, 0.0, ''], 'P2': [0, 0.0, 0.0, ''], 'PG': [0, 0.0, 0.0, '']})
+        c = a[src]; c[0] += rows; c[1] += qty; c[2] += val
+        if unit: c[3] = unit
+    for r in TR['ex_rows']:
+        if r.get('sell'): continue
+        it, grp = str(r.get('item') or ''), str(r.get('grp') or '')
+        if not it: continue
+        src = 'P2' if '2الحركة' in str(r.get('ref', '')) else 'P1'
+        disp = it if not grp or grp in it or it in grp else f'{it} ({grp})'
+        add('EX:' + norm_ar(it), disp, src, 1, r.get('qty') or 0, r.get('value') or 0, r.get('unit', ''))
+    for r in TR['pg_rows']:
+        if r.get('sell'): continue
+        it = str(r.get('item') or '')
+        if not it: continue
+        grp = str(r.get('grp') or '')
+        disp = it if not grp or grp in it or it in grp else f'{it} ({grp})'
+        add('PG:' + norm_ar(it), disp, 'PG', 1, r.get('qty') or 0, r.get('value') or 0, r.get('unit', ''))
+    MF = json.load(open('C:/Users/engmh/alrawda_check/money_final.json', encoding='utf-8'))
+    for d in MF['buy']['nonton']:
+        if norm_ar(d['item']) in SKIP: continue
+        if 'ward' not in d.get('ref', '') and 'return_w' not in d.get('ref', ''): continue  # إكسل موجود في ex_rows
+        add('PGN:' + norm_ar(d['item']), d['item'], 'PG', d['rows'], d.get('qty') or 0, d['value'], d.get('unit', ''))
+    per = {}
+    for f, src in [('C:/Users/engmh/OneDrive/Documents/ghazali check/new/الفترة الاولي/الحركة (بدون باسورد).xlsm', 'P1'),
+                   ('C:/Users/engmh/OneDrive/Documents/ghazali check/new/الفترة الثانية/2الحركة (بدون باسورد).xlsm', 'P2')]:
+        wb = openpyxl.load_workbook(f, read_only=True, data_only=True)
+        for r in wb['مشتريات وموردين'].iter_rows(min_row=3, values_only=True):
+            if any(k in str(r[3] or '') for k in ['شكاير', 'شيكارة', 'شكارة']):
+                v = r[6] if isinstance(r[6], (int, float)) else 0
+                q = r[4] if isinstance(r[4], (int, float)) else 0
+                if v > 0:
+                    d = per.setdefault(src, [0, 0.0, 0.0])
+                    d[0] += 1; d[1] += q; d[2] += v
+        wb.close()
+    for src, (n, q, v) in per.items():
+        add('EXSH', 'شكاير (أصناف الإكسل بكميات - خارج سطور المراجعة)', src, n, q, v, 'شيكارة')
+    def cell(c, sid):
+        if not c[0]: return '<td></td>'
+        q = f"{c[1]:,.1f} {c[3]}".strip() if c[1] else ''
+        return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+    t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
+    gt = 0
+    for k, a in sorted(agg.items(), key=lambda kv: -(kv[1]['P1'][2] + kv[1]['P2'][2] + kv[1]['PG'][2])):
+        tot = a['P1'][2] + a['P2'][2] + a['PG'][2]
+        gt += tot
+        t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
+    t += f"<tr class='grand'><td>الإجمالي</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
+    t += '<div class="note">من سطور المراجعة المعتمدة + شكاير الإكسل (209 سندات) التي لم تدخل سطورها. ضرب الأرز والنولون خارج الجدول لأنهما منقولان للمصروفات (م8-أجرة) وليسا شراء.</div>'
+    return page('إجمالي المشتريات بالأصناف - مضرب تعلب', 'كل صنف اشتريته: فترة أولى + فترة ثانية + برنامج', t)
+
 builders = {'1-المصروفات-والارباح.html': build_r1, '2-اجرة-المضرب-والناولون.html': build_r2,
-            '3-حسابا-الاطنان.html': build_r3, '4-تقرير-الاصناف-للمحاسب.html': build_r4}
+            '3-حسابا-الاطنان.html': build_r3, '4-تقرير-الاصناف-للمحاسب.html': build_r4,
+            '5-إجمالي-المشتريات-بالأصناف.html': build_r5}
 for fn, b in builders.items():
     h = b().replace('<table>', '<div class="tbl"><table>').replace('</table>', '</table></div>')
     open(OUT + fn, 'w', encoding='utf-8').write(h)
