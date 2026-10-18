@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مضرب الدمياطي استار - قاعدة البيانات</title>
+<style>
+:root{--bg:#f4f1ea;--card:#fff;--ink:#222;--mut:#777;--line:#e2ddd2;--acc:#8a6d1c;--acc2:#a5851f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+header{background:#12351f;color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5;border-bottom:3px solid #c9a100}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.brand .star{font-size:34px;color:#f2c400;line-height:1}
+.brand h1{margin:0;font-size:21px}
+header p{margin:2px 0 8px;color:#ddd;font-size:13px}
+nav.reps{display:flex;gap:8px;flex-wrap:wrap}
+nav.reps a{background:#a5851f;color:#fff;text-decoration:none;font-weight:bold;font-size:15px;padding:10px 18px;border-radius:10px}
+nav.reps a:hover{background:#c39d24}
+.wrap{display:flex;gap:12px;padding:12px;align-items:flex-start}
+aside{width:300px;min-width:260px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;position:sticky;top:86px;max-height:calc(100vh - 100px);overflow:auto}
+main{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+input[type=text],select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
+button{padding:8px 14px;border:0;border-radius:8px;background:var(--acc);color:#fff;font-size:14px;cursor:pointer;font-family:inherit}
+button:hover{background:var(--acc2)}
+button.ghost{background:#eee;color:#222}
+.src{font-weight:bold;margin:10px 0 4px;font-size:14px;background:#f7f4ec;padding:6px 8px;border-radius:6px}
+.sheet{display:block;width:100%;text-align:right;background:none;border:0;padding:7px 8px;border-radius:6px;cursor:pointer;font-size:13.5px;color:var(--ink);font-family:inherit}
+.sheet:hover{background:#f3efe4}
+.sheet.on{background:#222;color:#fff}
+.sheet .n{color:var(--mut);font-size:12px}
+.sheet.on .n{color:#ddd}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.toolbar input{flex:2;min-width:180px}
+.meta{color:var(--mut);font-size:13px;margin:6px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:right;white-space:nowrap}
+th{background:#222;color:#fff;position:sticky;top:0}
+tr:nth-child(even) td{background:#faf8f2}
+tfoot td{background:#f0e9d4;font-weight:bold}
+.pager{display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.gres{padding:8px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer}
+.gres:hover{background:#f7f4ec}
+.gres b{color:var(--acc)}
+.num{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
+#t{overflow-x:auto}
+@media(max-width:900px){.wrap{flex-direction:column}aside{width:100%;position:static;max-height:300px}nav.reps a{flex:1 1 45%;text-align:center;font-size:14px;padding:10px 6px}.brand h1{font-size:18px}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><p id="hstats">جاري التحميل...</p></div></div>
+<nav class="reps">
+<a href="التقارير/1-المصروفات-والارباح.html">المصروفات والأرباح</a>
+<a href="التقارير/2-اجرة-المضرب-والناولون.html">أجرة المضرب والناولون</a>
+<a href="التقارير/3-حسابا-الاطنان.html">حسابا الأطنان</a>
+<a href="التقارير/4-تقرير-الاصناف-للمحاسب.html">تقرير الأصناف للمحاسب</a>
+</nav>
+</header>
+<div class="wrap">
+<aside>
+<input type="text" id="gsheet" placeholder="بحث عن شيت...">
+<div id="sheets"></div>
+</aside>
+<main>
+<div class="toolbar">
+<input type="text" id="q" placeholder="بحث داخل الشيت الحالي...">
+<input type="text" id="gq" placeholder="بحث شامل في كل الداتا...">
+<button id="gexp">تصدير CSV</button>
+</div>
+<div class="meta" id="meta"></div>
+<div id="gresults"></div>
+<div style="overflow:auto;max-height:65vh"><table id="t"></table></div>
+<div class="pager" id="pager"></div>
+</main>
+</div>
+<script>
+let MAN=[], IDX=[], cur=null, rows=[], filt=[], page=0; const PER=100;
+const $=id=>document.getElementById(id);
+const isNum=s=>/^-?[\d,.\s]+$/.test((s||"").trim())&&(s||"").trim()!==""&&isNaN(Date.parse(s.replace(/,/g,"")));
+async function load(){
+  if(location.protocol==="file:"){$("hstats").textContent="دوس دبل كليك على ملف (تشغيل القاعدة) اللي جنب الصفحة عشان الداتا تفتح";return;}
+  MAN=await (await fetch("data/manifest.json")).json();
+  let tot=MAN.reduce((a,m)=>a+m.n,0);
+  $("hstats").textContent=MAN.length+" جدول، "+tot.toLocaleString("en")+" صف من 6 ملفات";
+  $("gq").disabled=true;$("gq").placeholder="البحث الشامل بيجهز...";
+  renderSheets("");
+  const pre=parseInt(new URLSearchParams(location.search).get("s")||"0");
+  const first=MAN.find(m=>m.id===pre)||MAN.find(m=>m.n>0)||MAN[0];
+  openSheet(first.id);
+  fetch("data/index.json").then(r=>r.json()).then(ix=>{IDX=ix;
+    $("gq").disabled=false;$("gq").placeholder="بحث شامل في كل الداتا...";});
+}
+function renderSheets(f){
+  const box=$("sheets"); box.innerHTML="";
+  let lastSrc="";
+  MAN.filter(m=>(m.sheet+m.srcLabel).includes(f)).forEach(m=>{
+    if(m.src!==lastSrc){lastSrc=m.src;const d=document.createElement("div");d.className="src";d.textContent=m.srcLabel;box.appendChild(d);}
+    const b=document.createElement("button");b.className="sheet"+(cur&&cur.id===m.id?" on":"");
+    b.innerHTML=m.sheet+' <span class="n">('+m.n.toLocaleString("en")+")</span>";
+    b.onclick=()=>openSheet(m.id);box.appendChild(b);
+  });
+}
+async function openSheet(id){
+  cur=MAN.find(m=>m.id===id);
+  renderSheets($("gsheet").value);
+  const d=await (await fetch("data/"+cur.file)).json();
+  cur.header=d.header;cur.title=d.title;rows=d.rows;
+  page=0;
+  const qp=new URLSearchParams(location.search);
+  if(qp.get("q")&&!window._qdone){window._qdone=1;$("q").value=qp.get("q");}
+  applyFilter();
+  const rr=parseInt(qp.get("r")||"-1");
+  if(rr>=0&&!window._rdone&&rr<filt.length){window._rdone=1;page=Math.floor(rr/PER);render();
+    const tb=$("t").querySelectorAll("tbody tr")[rr%PER];
+    if(tb){tb.style.background="#ffe9a8";tb.scrollIntoView({block:"center"});}}
+}
+function applyFilter(){
+  const q=$("q").value.trim();
+  filt=q?rows.filter(r=>r.join(" ").includes(q)):rows;
+  page=0;render();
+}
+function numIdx(){
+  const idx=[];if(!filt.length)return idx;
+  for(let c=0;c<filt[0].length;c++){let n=0;for(let i=0;i<Math.min(filt.length,50);i++){if(isNum(filt[i][c]))n++;}if(n>=5)idx.push(c);}
+  return idx;
+}
+function render(){
+  const H=cur.header,t=[...H];while(t.length<cur.cols)t.push("");
+  let h="<thead><tr><th>#</th>"+t.map(c=>"<th>"+esc(c)+"</th>").join("")+"</tr></thead><tbody>";
+  const start=page*PER,sl=filt.slice(start,start+PER);
+  sl.forEach((r,i)=>{
+    h+="<tr><td class=num>"+(start+i+1)+"</td>"+r.map((c,ci)=>"<td class="+(isNum(c)?"num":"")+">"+esc(c)+"</td>").join("")+"</tr>";
+  });
+  h+="</tbody>";
+  const ni=numIdx(),sums=new Array(cur.cols).fill(0),has=new Array(cur.cols).fill(false);
+  if(ni.length){filt.forEach(r=>ni.forEach(c=>{const v=parseFloat((r[c]||"").replace(/,/g,""));if(!isNaN(v)){sums[c]+=v;has[c]=true;}}));
+    h+="<tfoot><tr><td>المجموع</td>";for(let c=0;c<cur.cols;c++)h+="<td class=num>"+(has[c]?sums[c].toLocaleString("en",{maximumFractionDigits:1}):"")+"</td>";h+="</tr></tfoot>";}
+  $("t").innerHTML=h;
+  $("meta").textContent=cur.srcLabel+" / "+cur.sheet+" : "+filt.length.toLocaleString("en")+" صف معروض من "+rows.length.toLocaleString("en");
+  const np=Math.max(1,Math.ceil(filt.length/PER)),p=$("pager");p.innerHTML="";
+  const mk=(t,fn,dis)=>{const b=document.createElement("button");b.textContent=t;b.className="ghost";b.disabled=!!dis;b.onclick=fn;p.appendChild(b);};
+  mk("الأول",()=>{page=0;render();});mk("السابق",()=>{if(page>0){page--;render();}},page===0);
+  const s=document.createElement("span");s.textContent=" صفحة "+(page+1)+" من "+np.toLocaleString("en");s.style.margin="0 8px";p.appendChild(s);
+  mk("التالي",()=>{if(page<np-1){page++;render();}},page>=np-1);mk("الأخير",()=>{page=np-1;render();});
+}
+function globalSearch(){
+  const q=$("gq").value.trim(),box=$("gresults");box.innerHTML="";
+  if(q.length<2)return;
+  const hits=IDX.filter(e=>e[2].includes(q)).slice(0,100);
+  if(!hits.length){box.innerHTML='<div class="meta">لا نتائج</div>';return;}
+  const d=document.createElement("div");d.className="meta";d.textContent=hits.length+" نتيجة (أول 100)، اضغط على أي نتيجة للانتقال إليها:";box.appendChild(d);
+  hits.forEach(e=>{
+    const m=MAN.find(x=>x.id===e[0]);
+    const r=document.createElement("div");r.className="gres";
+    r.innerHTML="<b>"+esc(m.srcLabel+" / "+m.sheet)+"</b> صف "+(e[1]+1)+" : "+esc(e[2].slice(0,160));
+    r.onclick=async()=>{await openSheet(e[0]);page=Math.floor(e[1]/PER);render();
+      const tb=$("t").querySelectorAll("tbody tr")[e[1]%PER];if(tb){tb.style.background="#ffe9a8";tb.scrollIntoView({block:"center"});}};
+    box.appendChild(r);
+  });
+}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function exportCSV(){
+  const H=cur.header;let csv="\ufeff#,"+H.map(c=>'"'+(c||"").replace(/"/g,'""')+'"').join(",")+"\n";
+  filt.forEach((r,i)=>{csv+=(i+1)+","+r.map(c=>'"'+(c||"").replace(/"/g,'""')+'"').join(",")+"\n";});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download=cur.sheet+".csv";a.click();
+}
+$("q").oninput=applyFilter;$("gq").oninput=globalSearch;$("gexp").onclick=exportCSV;$("gsheet").oninput=e=>renderSheets(e.target.value);
+load();
+</script>
+</body>
+</html>
