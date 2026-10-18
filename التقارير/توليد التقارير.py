@@ -194,8 +194,11 @@ def build_r1():
     t += '<h2>بنود البيع بلا وزن 656,943 ج (م4)</h2><table><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr>'
     for name, d in MP['SELL_NT']:
         t += f"<tr><td>{name} ({d['rows']} سطر)</td><td class='n'>{fmt(d['value'])}</td><td class='src'>{linkify(d['ref'])}</td></tr>"
-    t += '</table><div class="note">جدول المصدر قبل إعادة التبويب: بنود الأجرة (ضرب أرز 10,535,500 + نولون 2,742,709 + خالد 2,751,909) اتشالت من الشراء وبقت في بند الأجرة الكاملة وحده.</div><h2>بنود الشراء بلا وزن 39,566,775 ج (م5)</h2><table><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr>'
+    t += '</table><div class="note">جدول المصدر قبل إعادة التبويب: بنود الأجرة (ضرب أرز 10,535,500 + نولون 2,742,709 + خالد 2,751,909) اتشالت من الشراء وبقت في بند الأجرة الكاملة وحده.</div>'
+    NTB = sum(d['value'] for n2, d in MP['BUY_NT'] if norm_ar(n2) not in ('ضرب ارز', 'نولون'))
+    t += f'<h2>بنود الشراء بلا وزن {fmt(NTB)} ج (م5، بعد شيل الأجرة)</h2><table><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr>'
     for name, d in MP['BUY_NT'][:7]:
+        if norm_ar(name) in ('ضرب ارز', 'نولون'): continue
         t += f"<tr><td>{name} ({d['rows']} سطر)</td><td class='n'>{fmt(d['value'])}</td><td class='src'>{linkify(d['ref'])}</td></tr>"
     t += '</table><div class="note">جدول السنين بأرقام المصدر قبل إعادة التبويب.</div>'
     # years
