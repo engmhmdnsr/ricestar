@@ -468,7 +468,7 @@ def build_r7():
     MF = json.load(open('C:/Users/engmh/alrawda_check/money_final.json', encoding='utf-8'))
     gt = R5GT  # إجمالي المشتريات بعد المرتجع والتصحيح
     darb, naw, khaled, exsh = 10535500.0, 2742708.6, 2751908.94, 7673558.0
-    A = gt - darb - naw - exsh  # مشتريات البضاعة
+    A = gt - darb - naw - exsh - khaled  # مشتريات البضاعة (بعد فصل خالد لبند الضرب)
     oil, sams = 19709961.24, 921885.0
     grain = A - oil - sams  # حبوب وخامات (صافي شامل كل التسويات)
     FULL = 25281602.29
