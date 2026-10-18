@@ -155,7 +155,7 @@ def page(title, sub, body):
 # ================= R1 =================
 def build_r1():
     sell, buy = MF['sell'], MF['buy']
-    FULL = 25281602.29; KHALED = 2751908.94; EXN = 74786.25  # البند = الضرب كامل
+    FULL = 25281602.29 - 8445400.0; KHALED = 2751908.94; EXN = 74786.25  # سحبة 6:29 دائن (إيراد داخلي) لا تدخل المصروف
     nS = sell['total']; nB = buy['total'] - 10535500.0 - 2742708.6 - KHALED
     nE = MP['TOTAL_EXP'] + FULL; nNET = (nS - nB) - nE
     exp_e1 = MF.get('مصروفات_اكسل_ف1', MF.get('exp_e1', {}))
@@ -183,7 +183,7 @@ def build_r1():
     t += f"<tr><td>إيجار مضرب خالد تعلب (14 سحبة إكسل ف1)</td><td class='n'>{fmt(KHALED)}</td><td>كان في الشراء بلا وزن (اتشال)</td></tr>"
     t += f"<tr><td>نولون بيع برنامج (7 سندات sadr) - في البيع كإيراد وداخل في البند</td><td class='n'>{fmt(44000.0)}</td><td class='src'>{linkify('جدول sadr (مبيعات)/سطر فاتورة 2332 · سطر 4154')}</td></tr>"
     t += f"<tr><td>نولون ملفات الإكسل (13 سطر)</td><td class='n'>{fmt(EXN)}</td><td>في البيع كإيراد وداخل في البند</td></tr>"
-    t += f"<tr><td>حساب المضرب سحبة 6:29 ومقطوعات (20)</td><td class='n'>{fmt(8445400.0)}</td><td>خارج إجماليات البيع والشراء (داخل في البند والرد)</td></tr>"
+    t += f"<tr><td>حساب المضرب سحبة 6:29 ومقطوعات (20)</td><td class='n'>{fmt(8445400.0)}</td><td>دائن في حساب المضرب (إيراد) - خارج البند والمردود</td></tr>"
     t += f"<tr><td>أجرة مضرب 650 للطن (2)</td><td class='n'>{fmt(683598.5)}</td><td>خارج الإجماليات (داخل في البند والرد)</td></tr>"
     t += f"<tr><td>أجرة مضرب في مصروفات البرنامج (5)</td><td class='n'>{fmt(3700.0)}</td><td>داخل مصروفات البرنامج (م8) ومكررة في البند بفرق 3,700</td></tr>"
     t += f"<tr class='grand'><td>الأجرة الكاملة</td><td class='n'>{fmt(FULL)}</td><td></td></tr></table>"
@@ -348,10 +348,18 @@ def build_r5():
         disp = it if not grp or grp in it or it in grp else f'{it} ({grp})'
         add('PG:' + norm_ar(it), disp, 'PG', 1, r.get('qty') or 0, r.get('value') or 0, r.get('unit', ''))
     MF = json.load(open('C:/Users/engmh/alrawda_check/money_final.json', encoding='utf-8'))
-    for d in MF['buy']['nonton']:
-        if norm_ar(d['item']) in SKIP: continue
-        if 'ward' not in d.get('ref', '') and 'return_w' not in d.get('ref', ''): continue  # إكسل موجود في ex_rows
-        add('PGN:' + norm_ar(d['item']), d['item'], 'PG', d['rows'], d.get('qty') or 0, d['value'], d.get('unit', ''))
+    UNSF = 'C:/Users/engmh/OneDrive/Documents/ghazali check/نتيجة/تفصيلي البيع والشراء بالمراجع - مضرب تعلب.xlsx'
+    uwb = openpyxl.load_workbook(UNSF, read_only=True, data_only=True)
+    uw = uwb['شراء كامل']
+    for r in uw.iter_rows(min_row=5, values_only=True):
+        if 'لم يُسجل' not in str(r[11] or ''): continue
+        it = str(r[3] or '')
+        if not it: continue
+        v = r[9] if isinstance(r[9], (int, float)) else 0
+        q = r[7] if isinstance(r[7], (int, float)) else 0
+        if v > 0:
+            add('EX:' + norm_ar(it), it, 'P2', 1, q, v, str(r[6] or ''))
+    uwb.close()
     per = {}
     for f, src in [('C:/Users/engmh/OneDrive/Documents/ghazali check/new/الفترة الاولي/الحركة (بدون باسورد).xlsm', 'P1'),
                    ('C:/Users/engmh/OneDrive/Documents/ghazali check/new/الفترة الثانية/2الحركة (بدون باسورد).xlsm', 'P2')]:
@@ -377,7 +385,7 @@ def build_r5():
         gt += tot
         t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
     t += f"<tr class='grand'><td>الإجمالي</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
-    t += '<div class="note">من سطور المراجعة المعتمدة + شكاير الإكسل (209 سندات) التي لم تدخل سطورها. ضرب الأرز والنولون خارج الجدول لأنهما منقولان للمصروفات (م8-أجرة) وليسا شراء.</div>'
+    t += '<div class="note">من سطور المراجعة المعتمدة + شكاير الإكسل (209 سندات) التي لم تدخل سطورها. شاملة "إكسل لم يُسجل في البرنامج" (141 سنداً مدمجة في الفترة الثانية). ضرب الأرز والنولون خارج الجدول لأنهما في بند الأجرة وليسا شراء.</div>'
     return page('إجمالي المشتريات بالأصناف - مضرب تعلب', 'كل صنف اشتريته: فترة أولى + فترة ثانية + برنامج', t)
 
 builders = {'1-المصروفات-والارباح.html': build_r1, '2-اجرة-المضرب-والناولون.html': build_r2,
