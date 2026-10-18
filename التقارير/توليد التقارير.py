@@ -163,7 +163,7 @@ def build_r1():
 <div class="card"><div class="v">{fmt(nS)}</div><div class="l">إجمالي البيع (ج)</div></div>
 <div class="card"><div class="v">{fmt(nB)}</div><div class="l">إجمالي الشراء بعد نقل الأجرة (ج)</div></div>
 <div class="card"><div class="v">{fmt(nS-nB)}</div><div class="l">الربح قبل المصروفات (ج)</div></div>
-<div class="card"><div class="v">{fmt(nE)}</div><div class="l">إجمالي المصروفات بعد النقل (ج)</div></div>
+<div class="card"><div class="v">{fmt(nE - FULL)}</div><div class="l">إجمالي المصروفات (بدون بند الأجرة)</div></div>
 <div class="card"><div class="v">{fmt(nNET)}</div><div class="l">صافي الربح بعد النقل (ج)</div></div>
 <div class="card"><div class="v">{abs(sell['tons']-buy['tons']):,.1f}</div><div class="l">مخزون آخر المدة (طن)</div></div>
 </div>"""
@@ -171,12 +171,11 @@ def build_r1():
         ('مصروفات الإكسل (مرة واحدة)', 844403, 'م6', xl_url('P1','مصروفات',17)),
         ('مرتبات وأجور العمال حتى 30/9/2025', 1949578, 'م7', xl_url('P2','مسير مرتبات')),
         ('مصروفات البرنامج 2/10/2025 إلى 22/8/2026', 4188879, 'م8', None),
-        ('أجرة المضرب والناولون كاملة (بند واحد)', FULL, 'م8-أجرة', None),
     ]
     t = '<h2>المصروفات مجمعة</h2><table><tr><th>البند</th><th class="n">القيمة (ج)</th><th class="c">المرجع</th></tr>'
     for name, val, code, u in exp_rows:
         t += f'<tr><td>{name}</td><td class="n">{fmt(val)}</td><td class="c">{link(u, code)}</td></tr>'
-    t += f'<tr class="grand"><td>الإجمالي بعد النقل</td><td class="n">{fmt(nE)}</td><td></td></tr></table>'
+    t += f'<tr class="grand"><td>إجمالي المصروفات (بدون بند الأجرة)</td><td class="n">{fmt(nE - FULL)}</td><td></td></tr></table>'
     t += '<h2>بند الأجرة الكاملة (تتخصم من الإجمالي وتتضاف على الأرباح)</h2><div class="note">الأجرة الكاملة بند لوحدها: خارج الشراء بلا وزن وخارج البيع، تتخصم من الإجمالي كمصروف ثم ترد كربح لأن المضرب ملك الملاك.</div><table><tr><th>المكون</th><th class="n">القيمة (ج)</th><th>كان فين</th></tr>'
     t += f"<tr><td>ضرب أرز برنامج (6 سندات ward)</td><td class='n'>{fmt(10535500.0)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1864 · سطر 2054')}</td></tr>"
     t += f"<tr><td>نولون شراء برنامج (947 سند ward)</td><td class='n'>{fmt(2742708.6)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1008 · سطر 1115')}</td></tr>"
@@ -231,6 +230,8 @@ def build_r1():
     t += '<h2>معالجة أجرة المضرب والناولون (المضرب ملك الملاك)</h2>'
     t += '<div class="note">أجرة المضرب والناولون داخلة في الأرباح لأن المضرب ملك الملاك، وتكلفة المضرب خارجة من المصروفات لتسهيل الحساب. التفصيل الكامل في <a class="ref" href="2-اجرة-المضرب-والناولون.html">تقرير أجرة المضرب والناولون</a>.</div>'
     t += '<table><tr><th>البند</th><th class="n">القيمة (ج)</th></tr>'
+    t += f"<tr><td>الربح بعد المصروفات (قبل الأجرة)</td><td class='n'>{fmt(nNET + FULL)}</td></tr>"
+    t += f"<tr><td>يخصم: بند الأجرة الكاملة (بره المصروفات)</td><td class='n'>{fmt(FULL)}</td></tr>"
     t += f"<tr><td>صافي الربح (بعد كل المصروفات)</td><td class='n'>{fmt(nNET)}</td></tr>"
     t += f"<tr><td>ترد: الأجرة الكاملة (بند واحد)</td><td class='n'>{fmt(FULL)}</td></tr>"
     t += f"<tr class='grand'><td>الربح شامل الأجرة الداخلية</td><td class='n'>{fmt(adj)}</td></tr></table>"
