@@ -155,24 +155,34 @@ def page(title, sub, body):
 # ================= R1 =================
 def build_r1():
     sell, buy = MF['sell'], MF['buy']
+    MV_BUY = 10535500.0 + 2742708.6; MV_SELL = 44000.0
+    nS = sell['total'] - MV_SELL; nB = buy['total'] - MV_BUY; MOVED = MV_BUY + MV_SELL
+    nE = MP['TOTAL_EXP'] + MOVED; nNET = (nS - nB) - nE
     exp_e1 = MF.get('مصروفات_اكسل_ف1', MF.get('exp_e1', {}))
     cards = f"""<div class="cards">
-<div class="card"><div class="v">{fmt(sell['total'])}</div><div class="l">إجمالي البيع (ج)</div></div>
-<div class="card"><div class="v">{fmt(buy['total'])}</div><div class="l">إجمالي الشراء (ج)</div></div>
-<div class="card"><div class="v">{fmt(sell['total']-buy['total'])}</div><div class="l">الربح قبل المصروفات (ج)</div></div>
-<div class="card"><div class="v">{fmt(MP['TOTAL_EXP'])}</div><div class="l">إجمالي المصروفات (ج)</div></div>
-<div class="card"><div class="v">{fmt(MP['NET'])}</div><div class="l">صافي الربح (ج)</div></div>
-<div class="card"><div class="v">{sell['tons']-buy['tons']:,.1f}</div><div class="l">مخزون آخر المدة (طن)</div></div>
+<div class="card"><div class="v">{fmt(nS)}</div><div class="l">إجمالي البيع بعد نقل النولون (ج)</div></div>
+<div class="card"><div class="v">{fmt(nB)}</div><div class="l">إجمالي الشراء بعد نقل الأجرة (ج)</div></div>
+<div class="card"><div class="v">{fmt(nS-nB)}</div><div class="l">الربح قبل المصروفات (ج)</div></div>
+<div class="card"><div class="v">{fmt(nE)}</div><div class="l">إجمالي المصروفات بعد النقل (ج)</div></div>
+<div class="card"><div class="v">{fmt(nNET)}</div><div class="l">صافي الربح بعد النقل (ج)</div></div>
+<div class="card"><div class="v">{abs(sell['tons']-buy['tons']):,.1f}</div><div class="l">مخزون آخر المدة (طن)</div></div>
 </div>"""
     exp_rows = [
         ('مصروفات الإكسل (مرة واحدة)', 844403, 'م6', xl_url('P1','مصروفات',17)),
         ('مرتبات وأجور العمال حتى 30/9/2025', 1949578, 'م7', xl_url('P2','مسير مرتبات')),
         ('مصروفات البرنامج 2/10/2025 إلى 22/8/2026', 4188879, 'م8', None),
+        ('أجرة المضرب والناولون (منقولة من المشتريات والمبيعات)', MOVED, 'م8-أجرة', None),
     ]
     t = '<h2>المصروفات مجمعة</h2><table><tr><th>البند</th><th class="n">القيمة (ج)</th><th class="c">المرجع</th></tr>'
     for name, val, code, u in exp_rows:
         t += f'<tr><td>{name}</td><td class="n">{fmt(val)}</td><td class="c">{link(u, code)}</td></tr>'
-    t += f'<tr class="grand"><td>الإجمالي</td><td class="n">{fmt(MP["TOTAL_EXP"])}</td><td></td></tr></table>'
+    t += f'<tr class="grand"><td>الإجمالي بعد النقل</td><td class="n">{fmt(nE)}</td><td></td></tr></table>'
+    t += '<h2>إعادة تبويب أجرة المضرب (مصروف وليست شراء)</h2><div class="note">أجرة المضرب مصروفات مش شراء، وكده كده هتتضاف تاني كربح لأن المضرب ملك الملاك.</div><table><tr><th>البند المنقول</th><th class="n">القيمة (ج)</th><th>المرجع</th></tr>'
+    t += f"<tr><td>ضرب أرز (6 سندات ward)</td><td class='n'>{fmt(10535500.0)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1864 · سطر 2054')}</td></tr>"
+    t += f"<tr><td>نولون مشتريات (947 سند ward)</td><td class='n'>{fmt(2742708.6)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1008 · سطر 1115')}</td></tr>"
+    t += f"<tr><td>نولون مبيعات (7 سندات sadr)</td><td class='n'>{fmt(44000.0)}</td><td class='src'>{linkify('جدول sadr (مبيعات)/سطر فاتورة 2332 · سطر 4154')}</td></tr>"
+    t += f"<tr class='grand'><td>الإجمالي المنقول للمصروفات</td><td class='n'>{fmt(MOVED)}</td><td></td></tr></table>"
+    t += '<div class="note">الكميات بالأطنان كما هي في المصدر (تشمل كميات الضرب التشغيلية)، التعديل على القيم المالية فقط.</div>'
     t += '<div class="note">أجور عمال التفريغ 88,579 ج بند بتحفظ (م9) خارج المجموع لاحتمال تداخله مع مصروفات البرنامج.</div>'
     # nonton sell
     t += '<h2>بنود البيع بلا وزن 656,943 ج (م4)</h2><table><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr>'
@@ -181,7 +191,7 @@ def build_r1():
     t += '</table><h2>بنود الشراء بلا وزن 39,566,775 ج (م5)</h2><table><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr>'
     for name, d in MP['BUY_NT'][:7]:
         t += f"<tr><td>{name} ({d['rows']} سطر)</td><td class='n'>{fmt(d['value'])}</td><td class='src'>{linkify(d['ref'])}</td></tr>"
-    t += '</table>'
+    t += '</table><div class="note">جدول السنين بأرقام المصدر قبل إعادة التبويب.</div>'
     # years
     t += '<h2>السنين</h2><table><tr><th>السنة</th><th class="n">شراء (طن)</th><th class="n">بيع (طن)</th><th class="n">شراء (ج)</th><th class="n">بيع (ج)</th></tr>'
     for y, bt, st, bv, sv, _ in MP['YEARS']:
@@ -201,16 +211,15 @@ def build_r1():
     mill = summ.get('إجمالي أجرة المضرب', 22420107.44)
     naw = summ.get('إجمالي الناولون', 2861494.85)
     khaled = summ.get('إيجار مضرب خالد تعلب (14 سحبة)', 0)
-    gher = 10535500  # ضرب أرز في البرنامج (عند الغير)
-    adj = MP['NET'] + mill + naw
+    adj = nNET + mill + naw
     t += '<h2>معالجة أجرة المضرب والناولون (المضرب ملك الملاك)</h2>'
     t += '<div class="note">أجرة المضرب والناولون داخلة في الأرباح لأن المضرب ملك الملاك، وتكلفة المضرب خارجة من المصروفات لتسهيل الحساب. التفصيل الكامل في <a class="ref" href="2-اجرة-المضرب-والناولون.html">تقرير أجرة المضرب والناولون</a>.</div>'
     t += '<table><tr><th>البند</th><th class="n">القيمة (ج)</th></tr>'
-    t += f"<tr><td>صافي الربح (بعد كل المصروفات)</td><td class='n'>{fmt(MP['NET'])}</td></tr>"
+    t += f"<tr><td>صافي الربح (بعد كل المصروفات)</td><td class='n'>{fmt(nNET)}</td></tr>"
     t += f"<tr><td>يرد: أجرة المضرب (داخلية)</td><td class='n'>{fmt(mill)}</td></tr>"
     t += f"<tr><td>يرد: الناولون (داخلي)</td><td class='n'>{fmt(naw)}</td></tr>"
     t += f"<tr class='grand'><td>الربح شامل الأجرة الداخلية</td><td class='n'>{fmt(adj)}</td></tr></table>"
-    t += f'<div class="note">بند معلق: إيجار مضرب خالد تعلب {fmt(khaled)} ج وضرب الأرز المسجل في البرنامج {fmt(gher)} ج. لو أي منهما مدفوع للغير يتخصم من الرد أعلاه.</div>'
+    t += f'<div class="note">إيجار مضرب خالد تعلب {fmt(khaled)} ج داخل ضمن أجرة المضرب المردودة أعلاه.</div>'
     # refs
     t += '<h2>المراجع (م1 إلى م18)</h2>'
     for code, title, srcs, tbl, loc, how in MONEY_REFS:
