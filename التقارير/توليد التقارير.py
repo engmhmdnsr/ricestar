@@ -155,12 +155,12 @@ def page(title, sub, body):
 # ================= R1 =================
 def build_r1():
     sell, buy = MF['sell'], MF['buy']
-    FULL = 25281602.29 - 8445400.0 - 683598.5; KHALED = 2751908.94; EXN = 74786.25
-    nS = sell['total'] - 44000.0 - EXN; nB = buy['total'] - 10535500.0 - 2742708.6 - KHALED
+    FULL = 25281602.29 - 8445400.0 - 683598.5 - 44000.0 - 74786.25; KHALED = 2751908.94; EXN = 74786.25  # نولون البيع رجع للبيع (إيراد) مش مصروف
+    nS = sell['total']; nB = buy['total'] - 10535500.0 - 2742708.6 - KHALED
     nE = MP['TOTAL_EXP'] + FULL; nNET = (nS - nB) - nE
     exp_e1 = MF.get('مصروفات_اكسل_ف1', MF.get('exp_e1', {}))
     cards = f"""<div class="cards">
-<div class="card"><div class="v">{fmt(nS)}</div><div class="l">إجمالي البيع بعد نقل النولون (ج)</div></div>
+<div class="card"><div class="v">{fmt(nS)}</div><div class="l">إجمالي البيع (ج)</div></div>
 <div class="card"><div class="v">{fmt(nB)}</div><div class="l">إجمالي الشراء بعد نقل الأجرة (ج)</div></div>
 <div class="card"><div class="v">{fmt(nS-nB)}</div><div class="l">الربح قبل المصروفات (ج)</div></div>
 <div class="card"><div class="v">{fmt(nE)}</div><div class="l">إجمالي المصروفات بعد النقل (ج)</div></div>
@@ -181,8 +181,8 @@ def build_r1():
     t += f"<tr><td>ضرب أرز برنامج (6 سندات ward)</td><td class='n'>{fmt(10535500.0)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1864 · سطر 2054')}</td></tr>"
     t += f"<tr><td>نولون شراء برنامج (947 سند ward)</td><td class='n'>{fmt(2742708.6)}</td><td class='src'>{linkify('جدول ward (مشتريات)/سطر فاتورة 1008 · سطر 1115')}</td></tr>"
     t += f"<tr><td>إيجار مضرب خالد تعلب (14 سحبة إكسل ف1)</td><td class='n'>{fmt(KHALED)}</td><td>كان في الشراء بلا وزن (اتشال)</td></tr>"
-    t += f"<tr><td>نولون بيع برنامج (7 سندات sadr)</td><td class='n'>{fmt(44000.0)}</td><td class='src'>{linkify('جدول sadr (مبيعات)/سطر فاتورة 2332 · سطر 4154')}</td></tr>"
-    t += f"<tr><td>نولون ملفات الإكسل (13 سطر)</td><td class='n'>{fmt(EXN)}</td><td>كان في البيع (اتشال)</td></tr>"
+    t += f"<tr><td>نولون بيع برنامج (7 سندات sadr) - رجع للبيع (إيراد)</td><td class='n'>{fmt(44000.0)}</td><td class='src'>{linkify('جدول sadr (مبيعات)/سطر فاتورة 2332 · سطر 4154')}</td></tr>"
+    t += f"<tr><td>نولون ملفات الإكسل (13 سطر)</td><td class='n'>{fmt(EXN)}</td><td>رجع للبيع (إيراد)</td></tr>"
     t += f"<tr><td>حساب المضرب سحبة 6:29 ومقطوعات (20)</td><td class='n'>{fmt(8445400.0)}</td><td>خارج البند (زي ما هو في تقرير الأجرة فقط)</td></tr>"
     t += f"<tr><td>أجرة مضرب 650 للطن (2)</td><td class='n'>{fmt(683598.5)}</td><td>خارج البند (زي ما هو في تقرير الأجرة فقط)</td></tr>"
     t += f"<tr><td>أجرة مضرب في مصروفات البرنامج (5)</td><td class='n'>{fmt(3700.0)}</td><td>داخل مصروفات البرنامج (م8) ومكررة في البند بفرق 3,700</td></tr>"
