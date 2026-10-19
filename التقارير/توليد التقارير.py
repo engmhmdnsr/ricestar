@@ -400,13 +400,8 @@ def build_r5():
         else:
             t += row
     t += '</table>'
-    st = sum(x[0] for x in sackrows)
-    t += '<table><tr><th>الشكاير ومستلزمات التعبئة (ضمن المجموع أعلاه - تفصيل مستقل)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
-    for _, row in sackrows:
-        t += row
-    t += f"<tr class='grand'><td>مجموع الشكاير في الجدول</td><td></td><td></td><td></td><td class='n'>{fmt(st)}</td></tr></table>"
-    t += '<table>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
+    t += '<table>'
     if ret_val:
         t += f"<tr><td>مرتجع شراء (خصم) - 21 سطر return_w</td><td></td><td></td><td class='n'><b>{fmt(ret_val)}</b> ج<br>{link(DB + '?s=124', 'جدول return_w')}</td><td class='n'><b>{fmt(ret_val)}</b></td></tr>"
         gt += ret_val
@@ -414,6 +409,11 @@ def build_r5():
     gt += -7851821.0
     R5GT = gt
     t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتصحيح)</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
+    st = sum(x[0] for x in sackrows)
+    t += '<table><tr><th>الشكاير ومستلزمات التعبئة (ضمن المجموع أعلاه - تفصيل مستقل)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
+    for _, row in sackrows:
+        t += row
+    t += f"<tr class='grand'><td>مجموع الشكاير في الجدول</td><td></td><td></td><td></td><td class='n'>{fmt(st)}</td></tr></table>"
     ded = 10535500.0 + 2742708.6 + 2751908.94
     uni = gt - ded + 147656.0  # الشكاير كلها ضمن الشراء (إكسل جوه gt + شكاير المصروفات منقولة من المصروفات)
     t += f"""<table><tr><th>بند الأجرة (خارج الشراء - في بند الضرب والناولون لوحده)</th><th class="n">القيمة (ج)</th></tr>
