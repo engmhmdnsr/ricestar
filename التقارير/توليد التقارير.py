@@ -383,8 +383,10 @@ def build_r5():
         add('EXSH', 'شكاير (أصناف الإكسل بكميات - خارج سطور المراجعة)', src, n, q, v, 'شيكارة')
     def cell(c, sid):
         if not c[0]: return '<td></td>'
-        q = f"{c[1]:,.1f} {c[3]}".strip() if c[1] else ''
-        return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+        if c[1]:
+            q = f"{c[1]:,.1f} {c[3]}".strip()
+            return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+        return f"<td class='n'><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
     SACKW = ('شكاير', 'اكياس', 'خيط', 'باكيتات')
     def issack(k, a):
         return k == 'EXSH' or any(w in (a['disp'] or '') for w in SACKW)
@@ -468,8 +470,10 @@ def build_r6():
     uwb.close()
     def cell(c, sid):
         if not c[0]: return '<td></td>'
-        q = f"{c[1]:,.1f} {c[3]}".strip() if c[1] else ''
-        return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+        if c[1]:
+            q = f"{c[1]:,.1f} {c[3]}".strip()
+            return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+        return f"<td class='n'><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
     t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
     gt = 0
     for k, a in sorted(agg.items(), key=lambda kv: -(kv[1]['P1'][2] + kv[1]['P2'][2] + kv[1]['PG'][2])):
