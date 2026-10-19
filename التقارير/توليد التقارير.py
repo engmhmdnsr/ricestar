@@ -392,21 +392,11 @@ def build_r5():
         return k == 'EXSH' or any(w in (a['disp'] or '') for w in SACKW)
     t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
     gt = 0
-    sackrows = []
     for k, a in sorted(agg.items(), key=lambda kv: -(kv[1]['P1'][2] + kv[1]['P2'][2] + kv[1]['PG'][2])):
         tot = a['P1'][2] + a['P2'][2] + a['PG'][2]
         gt += tot
-        row = f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
-        if issack(k, a):
-            sackrows.append((tot, row))
-        else:
-            t += row
+        t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
     t += '</table>'
-    st = sum(x[0] for x in sackrows)
-    t += '<table><tr><th>الشكاير ومستلزمات التعبئة (ضمن المجموع أعلاه - تفصيل مستقل)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
-    for _, row in sackrows:
-        t += row
-    t += f"<tr class='grand'><td>إجمالي الشكاير (برنامج 5,656,720 + إكسل 7,673,558 + مصروفات 147,656)</td><td></td><td></td><td></td><td class='n'>{fmt(13477934.0)}</td></tr></table>"
     t += '<table>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
     if ret_val:
