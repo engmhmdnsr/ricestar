@@ -328,6 +328,12 @@ def build_r5():
     global R5GT
     TR = json.load(open('C:/Users/engmh/alrawda_check/tonrows.json', encoding='utf-8'))
     MD = json.load(open('C:/Users/engmh/alrawda_check/money_data.json', encoding='utf-8'))
+    INM = json.load(open('C:/Users/engmh/alrawda_check/item_names.json', encoding='utf-8'))
+    def pgname(it):
+        m = re.match(r'صنف\s+(\d+)', it or '')
+        if m and m.group(1) in INM:
+            return f"{INM[m.group(1)]} ({m.group(1)})"
+        return it
     SKIP = {'ضرب ارز', 'نولون'}  # منقولة للمصروفات (م8-أجرة)، ليست شراء
     agg = {}
     def add(key, disp, src, rows, qty, val, unit=''):
@@ -343,7 +349,7 @@ def build_r5():
         add('EX:' + norm_ar(it), disp, src, 1, r.get('qty') or 0, r.get('value') or 0, r.get('unit', ''))
     for r in TR['pg_rows']:
         if r.get('sell'): continue
-        it = str(r.get('item') or '')
+        it = pgname(str(r.get('item') or ''))
         if not it: continue
         grp = str(r.get('grp') or '')
         disp = it if not grp or grp in it or it in grp else f'{it} ({grp})'
@@ -387,7 +393,7 @@ def build_r5():
         t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
     if ret_val:
-        t += f"<tr><td>مرتجع شراء (خصم) — 21 سطر return_w</td><td></td><td></td><td class='n'><b>{fmt(ret_val)}</b> ج<br>{link(DB + '?s=124', 'جدول return_w')}</td><td class='n'><b>{fmt(ret_val)}</b></td></tr>"
+        t += f"<tr><td>مرتجع شراء (خصم) - 21 سطر return_w</td><td></td><td></td><td class='n'><b>{fmt(ret_val)}</b> ج<br>{link(DB + '?s=124', 'جدول return_w')}</td><td class='n'><b>{fmt(ret_val)}</b></td></tr>"
         gt += ret_val
     t += f"<tr><td>تصحيح: 6 سطور شراء ف1 (3069-3075) إجماليها 10× الصحيح (22-06-2024)</td><td></td><td class='n'><b>{fmt(-7851821.0)}</b> ج</td><td></td><td class='n'><b>{fmt(-7851821.0)}</b></td></tr>"
     gt += -7851821.0
@@ -395,11 +401,11 @@ def build_r5():
     t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتصحيح)</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
     ded = 10535500.0 + 2742708.6 + 2751908.94
     uni = gt - ded + 147656.0  # الشكاير كلها ضمن الشراء (إكسل جوه gt + شكاير المصروفات منقولة من المصروفات)
-    t += f"""<table><tr><th>بند الأجرة (خارج الشراء — في بند الضرب والناولون لوحده)</th><th class="n">القيمة (ج)</th></tr>
-<tr><td>ضرب أرز — 6 سطور ward فاتورة 1864 (أجرة وليست شراء)</td><td class='n'><b>{fmt(10535500.0)}</b></td></tr>
-<tr><td>نولون — 947 نقلة ward فاتورة 1008 (أجرة وليست شراء)</td><td class='n'><b>{fmt(2742708.6)}</b></td></tr>
-<tr><td>إيجار مضرب خالد — 14 سحبة إكسل (أجرة وليست شراء)</td><td class='n'><b>{fmt(2751908.94)}</b></td></tr>
-<tr><td>شكاير الإكسل — 209 سندات = <b>{fmt(7673558.0)}</b> (ضمن الشراء)</td><td class='n'>داخلة في الصافي</td></tr>
+    t += f"""<table><tr><th>بند الأجرة (خارج الشراء - في بند الضرب والناولون لوحده)</th><th class="n">القيمة (ج)</th></tr>
+<tr><td>ضرب أرز - 6 سطور ward فاتورة 1864 (أجرة وليست شراء)</td><td class='n'><b>{fmt(10535500.0)}</b></td></tr>
+<tr><td>نولون - 947 نقلة ward فاتورة 1008 (أجرة وليست شراء)</td><td class='n'><b>{fmt(2742708.6)}</b></td></tr>
+<tr><td>إيجار مضرب خالد - 14 سحبة إكسل (أجرة وليست شراء)</td><td class='n'><b>{fmt(2751908.94)}</b></td></tr>
+<tr><td>شكاير الإكسل - 209 سندات = <b>{fmt(7673558.0)}</b> (ضمن الشراء)</td><td class='n'>داخلة في الصافي</td></tr>
 <tr class='grand'><td>الصافي الموحد (مطابق إجمالي الشراء في صفحة المصروفات والأرباح)</td><td class='n'>{fmt(uni)}</td></tr></table>"""
     t += '<div class="note">من سطور المراجعة المعتمدة + شكاير الإكسل (209 سندات) التي لم تدخل سطورها. شاملة "إكسل لم يُسجل في البرنامج" (141 سنداً مدمجة في الفترة الثانية). المرتجع شراء −32,811 ج مخصوم (21 سطر). ضرب الأرز والنولون خارج الجدول لأنهما في بند الأجرة وليسا شراء. شكاير: إكسل فترة أولى+ثانية + برنامج ward.</div>'
     return page('إجمالي المشتريات بالأصناف - مضرب تعلب', 'كل صنف اشتريته: فترة أولى + فترة ثانية + برنامج', t)
@@ -408,6 +414,12 @@ def build_r5():
 def build_r6():
     TR = json.load(open('C:/Users/engmh/alrawda_check/tonrows.json', encoding='utf-8'))
     MF = json.load(open('C:/Users/engmh/alrawda_check/money_final.json', encoding='utf-8'))
+    INM = json.load(open('C:/Users/engmh/alrawda_check/item_names.json', encoding='utf-8'))
+    def pgname(it):
+        m = re.match(r'صنف\s+(\d+)', it or '')
+        if m and m.group(1) in INM:
+            return f"{INM[m.group(1)]} ({m.group(1)})"
+        return it
     agg = {}
     def add(key, disp, src, rows, qty, val, unit=''):
         a = agg.setdefault(key, {'disp': disp, 'P1': [0, 0.0, 0.0, ''], 'P2': [0, 0.0, 0.0, ''], 'PG': [0, 0.0, 0.0, '']})
@@ -422,7 +434,7 @@ def build_r6():
         add('EX:' + norm_ar(it), disp, src, 1, r.get('qty') or 0, r.get('value') or 0, r.get('unit', ''))
     for r in TR['pg_rows']:
         if not r.get('sell'): continue
-        it = str(r.get('item') or '')
+        it = pgname(str(r.get('item') or ''))
         if not it: continue
         grp = str(r.get('grp') or '')
         disp = it if not grp or grp in it or it in grp else f'{it} ({grp})'
@@ -457,7 +469,7 @@ def build_r6():
     gt += -10000.0
     t += f"<tr><td>تصحيح خطأ إدخال (مبيعات ف1 سطر 5302: 500كجم أرز عريض بـ1,200,000، الصحيح 13,250 بسعر نفس اليوم 26.5)</td><td class='n'><b>{fmt(-1186750.0)}</b> ج</td><td></td><td></td><td class='n'><b>{fmt(-1186750.0)}</b></td></tr>"
     gt += -1186750.0
-    t += f"<tr><td>مرتجع مكرر يُرد للبيع (سند 47/48 سطرين + سند 70/71 — إدخال متتالي بثواني)</td><td></td><td></td><td class='n'><b>{fmt(283800.0)}</b> ج</td><td class='n'><b>{fmt(283800.0)}</b></td></tr>"
+    t += f"<tr><td>مرتجع مكرر يُرد للبيع (سند 47/48 سطرين + سند 70/71 - إدخال متتالي بثواني)</td><td></td><td></td><td class='n'><b>{fmt(283800.0)}</b> ج</td><td class='n'><b>{fmt(283800.0)}</b></td></tr>"
     gt += 283800.0
     t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتحصيل ورد المكرر)</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
     t += '<div class="note">من سطور المراجعة المعتمدة. شاملة "إكسل لم يُسجل في البرنامج" بيع (361 سنداً مدمجة في الفترة الثانية). المرتجع −14,282,831 ج مخصوم. التحصيل −10,000 ج مخصوم لأنه خزنة وليس إيرادا.</div>'
@@ -474,7 +486,7 @@ def build_r7():
     FULL = 25281602.29
     e1, p1, p2, pg = 844403.0, 105065.0, 1844512.5, 4188879.0
     exp = e1 + p1 + p2 + pg
-    grand = A  # الشكاير ضمن الشراء — والمصروفات والبند معلومة فقط
+    grand = A  # الشكاير ضمن الشراء - والمصروفات والبند معلومة فقط
     r = lambda n, v: f"<tr><td>{n}</td><td class='n'><b>{fmt(v)}</b></td></tr>"
     t = '<table><tr><th>بند المنصرف</th><th class="n">القيمة (ج)</th></tr>'
     t += r('حبوب وخامات طنّية (صافي شامل كل التسويات)', grain)
@@ -482,8 +494,8 @@ def build_r7():
     t += r('سمسرة ولوازم شراء (845,180 + 59,000 + 9,000 + 6,000 + 1,425 + 1,280)', sams)
     t += f"<tr class='grand'><td>مشتريات البضاعة</td><td class='n'>{fmt(A)}</td></tr>"
     t += f"<tr><td>إجمالي الشكاير (برنامج 5,656,720 + إكسل 7,673,558 + مصروفات 147,656) = <b>{fmt(13477934.0)}</b> (كلها ضمن مشتريات البضاعة أعلاه)</td></tr>"
-    t += f"<tr><td>بند الضرب والناولون (خارج المنصرف — يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,599 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 = <b>{fmt(FULL)}</b></td><td class='n'>معلومة لا تضاف</td></tr>"
-    t += f"<tr><td>مصروفات التشغيل (في بند المصروفات — تفصيلها في صفحة الأرباح): إكسل 696,747 + مرتبات ف1 105,065 + مرتبات ف2 1,844,513 + برنامج 4,188,879 = <b>{fmt(exp - 147656.0)}</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>معلومة لا تضاف</td></tr>"
+    t += f"<tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,599 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 = <b>{fmt(FULL)}</b></td><td class='n'>معلومة لا تضاف</td></tr>"
+    t += f"<tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): إكسل 696,747 + مرتبات ف1 105,065 + مرتبات ف2 1,844,513 + برنامج 4,188,879 = <b>{fmt(exp - 147656.0)}</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>معلومة لا تضاف</td></tr>"
     t += f"<tr class='grand'><td>المجموع الكلي للمنصرف</td><td class='n'>{fmt(grand)}</td></tr></table>"
     t += '<div class="note">كل جنيه اتصرف: بضاعة + شكاير إكسل + أجرة + مصروفات. الحبوب محسوبة كصافي (إجمالي المشتريات − الزيت − السمسرة − الأجرة − شكاير الإكسل) فالصفحة موزونة بالجنيه: الحبوب + الزيت + السمسرة = مشتريات البضاعة.</div>'
     return page('إجمالي المنصرف - مضرب تعلب', 'كل حاجة اتصرف فيها فلوس: خامات + شكاير + أجرة + مصروفات', t)
