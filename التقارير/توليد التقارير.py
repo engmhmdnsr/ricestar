@@ -401,9 +401,7 @@ def build_r5():
             sackrows.append((tot, row))
         else:
             t += row
-    t += '</table>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
-    t += '<table>'
     if ret_val:
         t += f"<tr><td>مرتجع شراء (خصم) - 21 سطر return_w</td><td></td><td></td><td class='n'><b>{fmt(ret_val)}</b> ج<br>{link(DB + '?s=124', 'جدول return_w')}</td><td class='n'><b>{fmt(ret_val)}</b></td></tr>"
         gt += ret_val
