@@ -385,12 +385,27 @@ def build_r5():
         if not c[0]: return '<td></td>'
         q = f"{c[1]:,.1f} {c[3]}".strip() if c[1] else ''
         return f"<td class='n'>{q}<br><b>{fmt(c[2])}</b> ج<br>{link(DB + f'?s={sid}', 'المصدر')}</td>"
+    SACKW = ('شكاير', 'اكياس', 'خيط', 'باكيتات')
+    def issack(k, a):
+        return k == 'EXSH' or any(w in (a['disp'] or '') for w in SACKW)
     t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
     gt = 0
+    sackrows = []
     for k, a in sorted(agg.items(), key=lambda kv: -(kv[1]['P1'][2] + kv[1]['P2'][2] + kv[1]['PG'][2])):
         tot = a['P1'][2] + a['P2'][2] + a['PG'][2]
         gt += tot
-        t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
+        row = f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
+        if issack(k, a):
+            sackrows.append((tot, row))
+        else:
+            t += row
+    t += '</table>'
+    st = sum(x[0] for x in sackrows)
+    t += '<table><tr><th>الشكاير ومستلزمات التعبئة (ضمن المجموع أعلاه - تفصيل مستقل)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
+    for _, row in sackrows:
+        t += row
+    t += f"<tr class='grand'><td>مجموع الشكاير في الجدول</td><td></td><td></td><td></td><td class='n'>{fmt(st)}</td></tr></table>"
+    t += '<table>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
     if ret_val:
         t += f"<tr><td>مرتجع شراء (خصم) - 21 سطر return_w</td><td></td><td></td><td class='n'><b>{fmt(ret_val)}</b> ج<br>{link(DB + '?s=124', 'جدول return_w')}</td><td class='n'><b>{fmt(ret_val)}</b></td></tr>"
