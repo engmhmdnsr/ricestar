@@ -186,7 +186,8 @@ def build_r1():
     sell, buy = MF['sell'], MF['buy']
     FULL = 25285402.29; KHALED = 2751908.94; EXN = 74786.25; NOLO1 = 2300.0  # البند = الضرب كامل (بقرار المالك)
     # حساب خام ثم تثبيت تقريب موحد لتفادي فرق 1ج: نجمع كأرقام صحيحة بعد التقريب
-    nS_raw = sell['total'] - 10000.0 - 1186750.0 + 283800.0
+    HAMSH = 507000 + 600000 + 88000 + 70000  # هامش مكتسب خارج الدفاتر (بقرار المالك) - داخل رقم المبيعات
+    nS_raw = sell['total'] - 10000.0 - 1186750.0 + 283800.0 + HAMSH
     nB_raw = R5GT - 10535500.0 - 2742708.6 - KHALED - NOLO1 - 1500.0 + 147656.0
     nE_without_raw = MP['TOTAL_EXP'] - 147656.0
     nS = int(round(nS_raw))
@@ -194,7 +195,7 @@ def build_r1():
     nE_without = int(round(nE_without_raw))
     FULL_I = int(round(FULL))
     # تثبيت للأرقام المعتمدة (فرق 1ج مرفوض)
-    if abs(nS - 987650313) <= 2: nS = 987650313
+    if abs(nS - 988915313) <= 2: nS = 988915313
     if abs(nB - 939327010) <= 2: nB = 939327010
     if abs(nE_without - 6835204) <= 2: nE_without = 6835204
     if abs(FULL_I - 25285402) <= 2: FULL_I = 25285402
@@ -204,8 +205,8 @@ def build_r1():
     nNET_raw = profit_before - nE
     final_raw = nNET_raw + FULL_I
     # تثبيت للأرقام المعتمدة (عرض متوازن بلا فرق 1ج)
-    nNET = 16202698 if abs(nNET_raw - 16202698) <= 2 else nNET_raw
-    final = 41488100 if abs(final_raw - 41488100) <= 2 else final_raw
+    nNET = 16202698 + HAMSH if abs(nNET_raw - 16202698) <= 2 else nNET_raw + HAMSH
+    final = 41488100 + HAMSH if abs(final_raw - 41488100) <= 2 else final_raw + HAMSH
     # إذا كان الفرق بسبب تقريب profit_before، اضبط profit_before ليتوازن مع النهائي
     # نُبقي profit_before = nS - nB = 48,323,303 معروضا، لكن نعرض الصافي والنهائي معتمدين (فرق 1ج مقبول عرضا مع إيضاح التقريب)
     profit_before_display = profit_before
@@ -282,9 +283,6 @@ def build_r1():
     mill = summ.get('إجمالي أجرة المضرب', 22420107.44)
     naw = summ.get('إجمالي الناولون', 2861494.85)
     khaled = summ.get('إيجار مضرب خالد تعلب (14 سحبة)', 0)
-    HAMSH = 507000 + 600000 + 88000 + 70000  # هامش مكتسب خارج الداتا (بقرار المالك)
-    nNET2 = nNET + HAMSH
-    final2 = final + HAMSH
     adj = final
     t += '<h2>معالجة أجرة المضرب والناولون (المضرب ملك الملاك)</h2>'
     t += '<div class="note">أجرة المضرب والناولون داخلة في الأرباح لأن المضرب ملك الملاك، وتكلفة المضرب خارجة من المصروفات لتسهيل الحساب. التفصيل الكامل في <a class="ref" href="2-اجرة-المضرب-والناولون.html">تقرير أجرة المضرب والناولون</a>.</div>'
@@ -292,16 +290,6 @@ def build_r1():
     t += f"<tr><td>صافي الربح (بعد كل المصروفات)</td><td class='n'>{fmt(nNET)}</td></tr>"
     t += f"<tr><td>ترد: الأجرة الكاملة (بند واحد)</td><td class='n'>{fmt(FULL)}</td></tr>"
     t += f"<tr class='grand'><td>الربح شامل الأجرة الداخلية</td><td class='n'>{fmt(adj)}</td></tr></table>"
-    t += '<h2>هامش مكتسب (خارج الدفاتر - بقرار المالك)</h2><div class="note">بنود ربحية غير مسجلة في الدفاتر، تضاف بقرار المالك.</div>'
-    t += '<table><tr><th>البند</th><th class="n">القيمة (ج)</th></tr>'
-    t += f"<tr><td>أرباح فترة الروضة</td><td class='n'>{fmt(507000)}</td></tr>"
-    t += f"<tr><td>أرباح الفترة الثانية</td><td class='n'>{fmt(600000)}</td></tr>"
-    t += f"<tr><td>أرباح الفترة الأولى (تقريبي)</td><td class='n'>{fmt(88000)}</td></tr>"
-    t += f"<tr><td>أرباح خصومات على التجار</td><td class='n'>{fmt(70000)}</td></tr>"
-    t += f"<tr class='grand'><td>إجمالي الهامش المكتسب</td><td class='n'>{fmt(HAMSH)}</td></tr>"
-    t += f"<tr><td>صافي الربح بعد النقل</td><td class='n'>{fmt(nNET)}</td></tr>"
-    t += f"<tr class='grand'><td>صافي الربح شامل الهامش المكتسب</td><td class='n'>{fmt(nNET2)}</td></tr>"
-    t += f"<tr class='grand'><td>الربح النهائي شامل الأجرة والهامش المكتسب</td><td class='n'>{fmt(final2)}</td></tr></table>"
     t += f'<div class="note">إيجار مضرب خالد تعلب {fmt(khaled)} ج داخل ضمن أجرة المضرب المردودة أعلاه.</div>'
     # refs
     t += '<h2>المراجع (م1 إلى م18)</h2>'
@@ -568,6 +556,8 @@ def build_r6():
     gt += -1186750
     t += f"<tr><td>مرتجع مكرر يُرد للبيع (سند 47/48 سطرين + سند 70/71 - إدخال متتالي بثواني)</td><td>—</td><td>—</td><td class='n'><b>{fmt(283800.0)}</b> ج</td><td class='n'><b>{fmt(283800.0)}</b></td></tr>"
     gt += 283800
+    t += f"<tr><td>هامش مكتسب خارج الدفاتر (بقرار المالك)</td><td>—</td><td>—</td><td>—</td><td class='n'><b>{fmt(1265000.0)}</b></td></tr>"
+    gt += 1265000
     t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتحصيل ورد المكرر)</td><td>—</td><td>—</td><td>—</td><td class='n'>{fmt(gt)}</td></tr></table>"
     t += '<div class="note">من سطور المراجعة المعتمدة. شاملة "إكسل لم يُسجل في البرنامج" بيع (361 سنداً مدمجة في الفترة الثانية). المرتجع −14,282,831 ج مخصوم. التحصيل −10,000 ج مخصوم لأنه خزنة وليس إيرادا.</div>'
     return page('إجمالي المبيعات بالأصناف - مضرب تعلب', 'تفصيل المبيعات حسب الصنف: فترة أولى + فترة ثانية + برنامج', t)
