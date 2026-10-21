@@ -1,4 +1,4 @@
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>إجمالي المنصرف - مضرب تعلب - مضرب الدمياطي استار</title><style>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>إجمالي المنصرف - مضرب تعلب - مضرب الدمياطي استار</title><style>
 @page{size:A4;margin:10mm}
 *{box-sizing:border-box}
 body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;margin:0;color:#1a1a1a;font-size:12px;line-height:1.6;background:#fff}
@@ -7,7 +7,7 @@ h1{font-size:19px;text-align:center;background:#1f4d2e;color:#fff;padding:12px;b
 .sub{text-align:center;color:#555;font-size:12px;margin-bottom:12px}
 h2{font-size:15px;background:#e8f0e4;border-right:5px solid #1f4d2e;padding:6px 12px;margin:18px 0 8px}
 table{width:100%;border-collapse:collapse;margin-bottom:8px}
-th{background:#1f4d2e;color:#fff;padding:6px;font-size:12px}
+th{background:#1f4d2e;color:#fff;padding:6px;font-size:12px;position:sticky;top:0;z-index:1}
 td{border:1px solid #bbb;padding:5px 8px;font-size:12px;vertical-align:top}
 tr:nth-child(even) td{background:#f2f5ee}
 td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -16,16 +16,17 @@ tr.total td{background:#dff0d8;font-weight:bold}
 tr.grand td{background:#1f4d2e;color:#fff;font-weight:bold;font-size:14px}
 .cards{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
 .card{flex:1;min-width:140px;border:2px solid #1f4d2e;border-radius:8px;padding:10px;text-align:center}
+.card:last-child:nth-child(odd){flex-basis:100%}
 .card .v{font-size:17px;font-weight:bold}
 .card .l{font-size:12px;color:#444}
-a.ref{background:#fff3c4;border:1px solid #c9a100;border-radius:5px;padding:0 7px;text-decoration:none;color:#5a4a00;font-size:11.5px;white-space:nowrap}
+a.ref{background:#fff3c4;border:1px solid #c9a100;border-radius:5px;padding:0 7px;text-decoration:none;color:#5a4a00;font-size:11.5px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px}
 a.ref:hover{background:#ffe27a}
 .refbox{background:#f7f9f4;border:1px solid #cfe0c8;border-radius:8px;padding:8px 12px;margin:6px 0}
 .refbox b.code{background:#1f4d2e;color:#fff;border-radius:5px;padding:0 8px;font-size:12px}
 .note{background:#fff8e1;border:1px solid #d4a017;border-radius:6px;padding:8px 12px;margin:8px 0}
 .how{color:#333;font-size:12px}
 .src{color:#666;font-size:11px}
-@media print{a.ref{text-decoration:none}}
+@media print{a.ref{text-decoration:none}.print-hide{display:none !important}}
 .tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
 @media(max-width:640px){.tbl table{min-width:560px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:6px}.card{min-width:46%;padding:8px}.card .v{font-size:15px}td,th{font-size:12px;padding:4px 6px}a.ref{font-size:12px}}
 </style><style>
@@ -34,6 +35,6 @@ a.ref:hover{background:#ffe27a}
 .brand h1{margin:0;font-size:19px}
 .brand .tag{font-size:12px;color:#ddd}
 </style></head>
-<body><div class="wrap"><div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div><h1>إجمالي المنصرف - مضرب تعلب</h1><div class="sub">كل حاجة اتصرف فيها فلوس: خامات + شكاير + أجرة + مصروفات</div><div class="tbl"><table><tr><th>بند المنصرف</th><th class="n">القيمة (ج)</th></tr><tr><td>حبوب وخامات طنّية (صافي شامل كل التسويات)</td><td class='n'><b>918,695,163</b></td></tr><tr><td>زيت التشغيل (ضمن مشتريات البضاعة أعلاه)</td><td class='n'><b>19,709,961</b></td></tr><tr><td>سمسرة ولوازم شراء (845,180 + 59,000 + 9,000 + 6,000 + 1,425 + 1,280)</td><td class='n'><b>921,885</b></td></tr><tr class='grand'><td>مشتريات البضاعة</td><td class='n'>939,327,010</td></tr><tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + نولو1 2,300 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,599 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 + طباعة 1,500 = <b>25,285,402</b></td><td class='n'>معلومة لا تضاف</td></tr><tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): إكسل 696,747 + مرتبات ف1 105,065 + مرتبات ف2 1,844,513 + برنامج 4,188,879 = <b>6,835,204</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>معلومة لا تضاف</td></tr><tr class='grand'><td>المجموع الكلي للمنصرف</td><td class='n'>939,327,010</td></tr></table></div><h2>الرصيد الافتتاحي والختامي (أصل لا يدخل الربح)</h2><div class="tbl"><table><tr><th>البيان</th><th class="n">الطن</th><th class="n">القيمة (ج)</th></tr><tr><td>رصيد افتتاحي: 200 طن شعير (رأس مال الشغل بمتوسط سعر الشراء 16,236 ج/طن)</td><td class='n'>200.00</td><td class='n'>3,247,201</td></tr><tr><td>مشتريات طنية (صافي بعد التسويات)</td><td class='n'>59,109.91</td><td class='n'></td></tr><tr><td>مبيعات طنية</td><td class='n'>57,659.19</td><td class='n'></td></tr><tr class='grand'><td>الرصيد الختامي (200 + 59,109.91 - 57,659.19)</td><td class='n'>1,650.72</td><td class='n'>أصل مخزون</td></tr></table></div><div class="note">كل جنيه اتصرف: بضاعة + شكاير إكسل + أجرة + مصروفات. الحبوب محسوبة كصافي (إجمالي R5 − الأجرة − الزيت − السمسرة + شكاير المصروفات المنقولة) فالصفحة موزونة بالجنيه: الحبوب + الزيت + السمسرة = مشتريات البضاعة.</div>
-<div class="note">طريقة الاستخدام: أي زر أصفر <a class="ref">مرجع</a> لما تدوس عليه يفتح مكان المصدر في قاعدة البيانات على نفس السطر.</div>
+<body><div class="wrap"><div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div><h1>إجمالي المنصرف - مضرب تعلب</h1><div class="sub">تفصيل إجمالي المنصرف: خامات + شكاير + أجرة + مصروفات</div><div class="tbl"><table><tr><th>بند المنصرف</th><th class="n">القيمة (ج)</th></tr><tr><td>حبوب وخامات طنّية (صافي شامل كل التسويات)</td><td class='n'><b>918,695,163</b></td></tr><tr><td>زيت التشغيل (أحد مكونات مشتريات البضاعة - مفصل للبيان)</td><td class='n'><b>19,709,961</b></td></tr><tr><td>سمسرة ولوازم شراء (845,180 + 59,000 + 9,000 + 6,000 + 1,425 + 1,280)</td><td class='n'><b>921,885</b></td></tr><tr class='grand'><td>مشتريات البضاعة</td><td class='n'>939,327,010</td></tr><tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + نولو1 2,300 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,599 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 + طباعة 1,500 = <b>25,285,402</b></td><td class='n'>إيضاح فقط غير داخل في التجميع</td></tr><tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): إكسل 696,747 + مرتبات ف1 105,065 + مرتبات ف2 1,844,513 + برنامج 4,188,879 = <b>6,835,204</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>إيضاح فقط غير داخل في التجميع</td></tr><tr class='grand'><td>المجموع الكلي للمنصرف</td><td class='n'>939,327,010</td></tr></table></div><h2>الرصيد الافتتاحي والختامي (أصل لا يدخل الربح)</h2><div class="tbl"><table><tr><th>البيان</th><th class="n">الطن</th><th class="n">القيمة (ج)</th></tr><tr><td>رصيد افتتاحي: 200 طن شعير (رأس مال الشغل بمتوسط سعر الشراء 16,236 ج/طن)</td><td class='n'>200.00</td><td class='n'>3,247,201</td></tr><tr><td>مشتريات طنية (صافي بعد التسويات)</td><td class='n'>59,109.91</td><td class='n'></td></tr><tr><td>مبيعات طنية</td><td class='n'>57,659.19</td><td class='n'></td></tr><tr class='grand'><td>الرصيد الختامي (200 + 59,109.91 - 57,659.19)</td><td class='n'>1,650.72</td><td class='n'>أصل مخزون</td></tr><tr><td>قيمة الختامي الإيضاحية بسعر التكلفة (1,650.72 طن × 16,236 ج/طن)</td><td class='n'>1,650.72</td><td class='n'>26,801,090 (إيضاح فقط)</td></tr></table></div><div class="note">كل جنيه اتصرف: بضاعة + شكاير إكسل + أجرة + مصروفات. الحبوب محسوبة كصافي (إجمالي R5 − الأجرة − الزيت − السمسرة + شكاير المصروفات المنقولة) فالصفحة موزونة بالجنيه: الحبوب + الزيت + السمسرة = مشتريات البضاعة.</div>
+<div class="note print-hide">طريقة الاستخدام: أي زر أصفر <a class="ref">مرجع</a> لما تدوس عليه يفتح مكان المصدر في قاعدة البيانات على نفس السطر.</div>
 </div></body></html>
