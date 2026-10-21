@@ -255,6 +255,8 @@ def build_r2():
         if 'إجمالي' in name or 'المجموع' in name: cls = 'total'
         else: cls = ''
         t += f"<tr class='{cls}'><td>{name}</td><td class='n'>{val if val is None else fmt(val)}</td><td class='n'>{n or ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
+    t += f"<tr><td>سحبات خالد تعلب (14 سحبة إكسل ف1 - إيجار مضرب، تضاف للبند)</td><td class='n'>{fmt(2751908.94)}</td><td class='n'>14</td><td class='src'>مشتريات وموردين ف1</td></tr>"
+    t += f"<tr class='total'><td>إجمالي البند شامل سحبات خالد</td><td class='n'>{fmt(22420107.44 + 2861494.85 + 2751908.94)}</td><td class='n'></td><td class='src'></td></tr>"
     t += '</table>'
     for sh in ['أجرة المضرب تفصيلي', 'الناولون تفصيلي']:
         ws = wb[sh]
@@ -264,7 +266,6 @@ def build_r2():
             src = str(r[6] or '')
             t += f"<tr><td class='c'>{r[0]}</td><td>{r[1] or ''}</td><td>{r[2] or ''}</td><td class='n'>{r[3] or ''}</td><td class='n'>{r[4] or ''}</td><td class='n'>{fmt(r[5]) if r[5] else ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
         t += '</table>'
-    t += f"<table><tr><th>إضافة بند الضرب</th><th class=\"n\">القيمة (ج)</th><th>المصدر</th></tr><tr><td>سحبات خالد تعلب (14 سحبة إكسل ف1 - إيجار مضرب)</td><td class='n'>{fmt(2751908.94)}</td><td class='src'>مشتريات وموردين ف1</td></tr><tr class='total'><td>أجرة المضرب + سحبات خالد</td><td class='n'>{fmt(22420107.44 + 2751908.94)}</td><td class='src'></td></tr></table>"
     wb.close()
     return page('أجرة المضرب والناولون - مضرب تعلب', 'تفصيلي كل سطر بمصدره، دوس على المرجع يفتح السطر الأصلي', t)
 
