@@ -254,11 +254,11 @@ def build_r2():
         name = str(r[1]); val = r[2]; n = r[3]; src = str(r[4] or '')
         if 'إجمالي أجرة المضرب' in name and isinstance(val, (int, float)):
             val = val + 2751908.94; name = name + ' (شامل سحبات خالد)'
+        if 'المجموع الكلي' in name and isinstance(val, (int, float)):
+            val = 22420107.44 + 2861494.85 + 2751908.94; name = 'المجموع الكلي (أجرة شامل خالد + ناولون)'
         if 'إجمالي' in name or 'المجموع' in name: cls = 'total'
         else: cls = ''
         t += f"<tr class='{cls}'><td>{name}</td><td class='n'>{val if val is None else fmt(val)}</td><td class='n'>{n or ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
-    t += f"<tr><td>سحبات خالد تعلب (14 سحبة إكسل ف1 - إيجار مضرب، تضاف للبند)</td><td class='n'>{fmt(2751908.94)}</td><td class='n'>14</td><td class='src'>مشتريات وموردين ف1</td></tr>"
-    t += f"<tr class='total'><td>إجمالي البند شامل سحبات خالد</td><td class='n'>{fmt(22420107.44 + 2861494.85 + 2751908.94)}</td><td class='n'></td><td class='src'></td></tr>"
     t += '</table>'
     for sh in ['أجرة المضرب تفصيلي', 'الناولون تفصيلي']:
         ws = wb[sh]
