@@ -411,10 +411,7 @@ def build_r5():
             t += row; gt += tot
     t += f"<tr class='grand'><td>إجمالي البضاعة (بدون الأجرة)</td><td></td><td></td><td></td><td class='n'>{fmt(gt)}</td></tr></table>"
     if feerows:
-        t += '<table><tr><th>بنود أجرة مسجلة ضمن المشتريات (تُخصم في التوحيد أدناه)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
-        for row in feerows:
-            t += row
-        t += f"<tr class='grand'><td>إجمالي الأجرة داخل المشتريات</td><td></td><td></td><td></td><td class='n'>{fmt(feetot)}</td></tr></table>"
+        t += f"<div class=\"note\">بنود أجرة مسجلة ضمن المشتريات بإجمالي {fmt(feetot)} ج (ضرب + نولون + نولو1 + طباعة) - مفصلة في جدول التوحيد أدناه.</div>"
     t += '<table><tr><th>التسوية</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
     if ret_val:
