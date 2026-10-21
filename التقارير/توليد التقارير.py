@@ -390,7 +390,7 @@ def build_r5():
     SACKW = ('شكاير', 'اكياس', 'خيط', 'باكيتات')
     def issack(k, a):
         return k == 'EXSH' or any(w in (a['disp'] or '') for w in SACKW)
-    FEEW = ('ضرب', 'مضرب', 'نولون', 'ناولون', 'أجرة', 'اجرة')
+    FEEW = ('ضرب', 'مضرب', 'نولون', 'نولو', 'ناولون', 'أجرة', 'اجرة')
     def isfee(a):
         return any(w in (a['disp'] or '') for w in FEEW)
     t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
