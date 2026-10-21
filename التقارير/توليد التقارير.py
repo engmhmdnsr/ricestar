@@ -205,8 +205,8 @@ def build_r1():
     nNET_raw = profit_before - nE
     final_raw = nNET_raw + FULL_I
     # تثبيت للأرقام المعتمدة (عرض متوازن بلا فرق 1ج)
-    nNET = 16202698 + HAMSH if abs(nNET_raw - 16202698) <= 2 else nNET_raw + HAMSH
-    final = 41488100 + HAMSH if abs(final_raw - 41488100) <= 2 else final_raw + HAMSH
+    nNET = 17467698 if abs(nNET_raw - 17467698) <= 2 else nNET_raw
+    final = 42753100 if abs(final_raw - 42753100) <= 2 else final_raw
     # إذا كان الفرق بسبب تقريب profit_before، اضبط profit_before ليتوازن مع النهائي
     # نُبقي profit_before = nS - nB = 48,323,303 معروضا، لكن نعرض الصافي والنهائي معتمدين (فرق 1ج مقبول عرضا مع إيضاح التقريب)
     profit_before_display = profit_before
@@ -558,7 +558,7 @@ def build_r6():
     gt += 283800
     t += f"<tr><td>هامش مكتسب خارج الدفاتر (بقرار المالك)</td><td>—</td><td>—</td><td>—</td><td class='n'><b>{fmt(1265000.0)}</b></td></tr>"
     gt += 1265000
-    t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتحصيل ورد المكرر)</td><td>—</td><td>—</td><td>—</td><td class='n'>{fmt(gt)}</td></tr></table>"
+    t += f"<tr class='grand'><td>الإجمالي (بعد خصم المرتجع والتحصيل ورد المكرر)</td><td>—</td><td>—</td><td>—</td><td class='n'>{fmt(int(round(gt)))}</td></tr></table>"
     t += '<div class="note">من سطور المراجعة المعتمدة. شاملة "إكسل لم يُسجل في البرنامج" بيع (361 سنداً مدمجة في الفترة الثانية). المرتجع −14,282,831 ج مخصوم. التحصيل −10,000 ج مخصوم لأنه خزنة وليس إيرادا.</div>'
     return page('إجمالي المبيعات بالأصناف - مضرب تعلب', 'تفصيل المبيعات حسب الصنف: فترة أولى + فترة ثانية + برنامج', t)
 
