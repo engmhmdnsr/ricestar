@@ -390,13 +390,26 @@ def build_r5():
     SACKW = ('شكاير', 'اكياس', 'خيط', 'باكيتات')
     def issack(k, a):
         return k == 'EXSH' or any(w in (a['disp'] or '') for w in SACKW)
+    FEEW = ('ضرب', 'مضرب', 'نولون', 'ناولون', 'أجرة', 'اجرة')
+    def isfee(a):
+        return any(w in (a['disp'] or '') for w in FEEW)
     t = '<table><tr><th>الصنف</th><th>فترة أولى (كمية / قيمة)</th><th>فترة ثانية (كمية / قيمة)</th><th>البرنامج (كمية / قيمة)</th><th class="n">إجمالي القيمة (ج)</th></tr>'
     gt = 0
+    feerows = []
     for k, a in sorted(agg.items(), key=lambda kv: -(kv[1]['P1'][2] + kv[1]['P2'][2] + kv[1]['PG'][2])):
         tot = a['P1'][2] + a['P2'][2] + a['PG'][2]
         gt += tot
-        t += f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
+        row = f"<tr><td>{a['disp']}</td>{cell(a['P1'], 4)}{cell(a['P2'], 28)}{cell(a['PG'], 124)}<td class='n'><b>{fmt(tot)}</b></td></tr>"
+        if isfee(a):
+            feerows.append(row)
+        else:
+            t += row
     t += '</table>'
+    if feerows:
+        t += '<table><tr><th>بنود الأجرة داخل الإجمالي (مخصومة في جدول التوحيد أدناه)</th><th>فترة أولى</th><th>فترة ثانية</th><th>البرنامج</th><th class="n">القيمة (ج)</th></tr>'
+        for row in feerows:
+            t += row
+        t += '</table>'
     t += '<table>'
     ret_val = MF['buy']['src']['مرتجع (خصم)'] if isinstance(MF.get('buy',{}).get('src',{}).get('مرتجع (خصم)'), (int,float)) else -32810.9
     if ret_val:
