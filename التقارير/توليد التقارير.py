@@ -252,6 +252,8 @@ def build_r2():
     for r in list(ws.iter_rows(min_row=4, values_only=True)):
         if not r[1]: continue
         name = str(r[1]); val = r[2]; n = r[3]; src = str(r[4] or '')
+        if 'إجمالي أجرة المضرب' in name and isinstance(val, (int, float)):
+            val = val + 2751908.94; name = name + ' (شامل سحبات خالد)'
         if 'إجمالي' in name or 'المجموع' in name: cls = 'total'
         else: cls = ''
         t += f"<tr class='{cls}'><td>{name}</td><td class='n'>{val if val is None else fmt(val)}</td><td class='n'>{n or ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
