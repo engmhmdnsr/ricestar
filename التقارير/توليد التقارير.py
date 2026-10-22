@@ -128,7 +128,7 @@ a.ref:hover{background:rgba(232,197,71,.20)}
 @media print{body{background:#fff;color:#111}h1,.card,.note,.refbox{background:#fff;color:#111}a.ref{text-decoration:none}.print-hide{display:none !important}}
 .tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
 .tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:11px;color:rgba(238,241,246,.4);text-align:left;padding:2px 4px}
-@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:560px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{min-width:46%;padding:10px 8px}.card .v{font-size:16px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
+@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:620px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{flex:1 1 calc(50% - 8px);min-width:0;padding:10px 4px}.card .v{font-size:14px;letter-spacing:0;white-space:nowrap}.card .l{font-size:11px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
 </style>"""
 
 BRAND = """<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div>"""
