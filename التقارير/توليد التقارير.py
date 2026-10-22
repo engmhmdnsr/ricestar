@@ -24,7 +24,8 @@ def xl_url(src, sheet, excel_row=None):
 
 def link(url, text):
     if not url: return text
-    return f'<a class="ref" href="{url}" target="_blank">{text}</a>'
+    tgt = '' if url.startswith('#') else ' target="_blank"'
+    return f'<a class="ref" href="{url}"{tgt}>{text}</a>'
 
 def file_of(t):
     if 'الفترة الاولي' in t or 'الفترة الأولى' in t or 'الحركة ف1' in t: return 'P1'
@@ -231,7 +232,7 @@ def build_r1():
     exp_rows = [
         ('مصروفات الفترة الأولى (إكسل - بعد نقل شكاير المصروفات 147,656 للشراء)', 696747, 'م6', xl_url('P1','مصروفات',17)),
         ('مصروفات الفترة الثانية (الخزنة لحد 30/9/2025 - بدون ديل أكتوبر المكرر مع البرنامج)', 3507661, 'م7', xl_url('KH','الخزينة')),
-        ('مصروفات البرنامج 2/10/2025 إلى 22/8/2026', 4188879, 'م8', None),
+        ('مصروفات البرنامج 2/10/2025 إلى 22/8/2026', 4188879, 'م8', '#m8detail'),
     ]
     t = '<h2>المصروفات مجمعة</h2><table><tr><th>البند</th><th class="n">القيمة (ج)</th><th class="c">المرجع</th></tr>'
     for name, val, code, u in exp_rows:
@@ -276,7 +277,7 @@ def build_r1():
     t += f"<tr class='grand'><td>إجمالي الشكاير شراء ومصروفات</td><td class='n'>345</td><td class='n'>{fmt(1324058 + 6349500 + 5656720 + 147656)}</td><td></td></tr></table>"
     t += f"<div class=\"note\">مبيعات شكاير: إكسل {fmt(285956)} ج ({link(DB + '?s=6', 'ف1')} + {link(DB + '?s=31', 'ف2')}) + برنامج {fmt(101625)} ج ({link(DB + '?s=123', 'جدول sadr')}).</div>"
     # program top items
-    t += '<h2>أكبر بنود مصروفات البرنامج (م8)</h2><table><tr><th>البند</th><th class="n">سندات</th><th class="n">القيمة</th></tr>'
+    t += '<h2 id="m8detail">أكبر بنود مصروفات البرنامج (م8) · جدول cost بقاعدة alrawda_live</h2><table><tr><th>البند</th><th class="n">سندات</th><th class="n">القيمة</th></tr>'
     for it in MP['PROG_ITEMS'][:10]:
         t += f"<tr><td>{it['item']}</td><td class='n'>{it['rows']}</td><td class='n'>{fmt(it['value'])}</td></tr>"
     t += '</table>'
