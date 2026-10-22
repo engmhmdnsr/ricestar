@@ -100,44 +100,44 @@ def fmt(n):
 CSS = """<style>
 @page{size:A4;margin:10mm}
 *{box-sizing:border-box}
-body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;margin:0;color:#1a1a1a;font-size:12px;line-height:1.6;background:#fff}
+body{font-family:'Segoe UI',Tahoma,Arial,system-ui,sans-serif;direction:rtl;margin:0;color:#eef1f6;font-size:12.5px;line-height:1.75;background-color:#050814;background-image:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.10) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.08) 0%,transparent 60%),linear-gradient(180deg,#050814 0%,#070d1e 40%,#050814 100%);background-attachment:fixed}
 .wrap{max-width:1000px;margin:0 auto;padding:16px}
-h1{font-size:19px;text-align:center;background:#1f4d2e;color:#fff;padding:12px;border-radius:8px;margin:0 0 6px}
-.sub{text-align:center;color:#555;font-size:12px;margin-bottom:12px}
-h2{font-size:15px;background:#e8f0e4;border-right:5px solid #1f4d2e;padding:6px 12px;margin:18px 0 8px}
-table{width:100%;border-collapse:collapse;margin-bottom:8px}
-th{background:#1f4d2e;color:#fff;padding:6px;font-size:12px;position:sticky;top:0;z-index:1}
-td{border:1px solid #bbb;padding:5px 8px;font-size:12px;vertical-align:top}
-tr:nth-child(even) td{background:#f2f5ee}
-td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
+h1{font-size:19px;text-align:center;background:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));color:#eef1f6;padding:12px;border-radius:14px;margin:0 0 6px;border:1px solid rgba(255,255,255,.08)}
+.sub{text-align:center;color:rgba(238,241,246,.56);font-size:12px;margin-bottom:12px}
+h2{font-size:15px;background:rgba(255,255,255,.03);border-right:4px solid #E8C547;color:#eef1f6;padding:8px 12px;margin:18px 0 8px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:12.5px}
+th{background:rgba(255,255,255,.05);color:rgba(238,241,246,.6);padding:8px;font-size:11.5px;position:sticky;top:0;z-index:1;border-bottom:1px solid rgba(255,255,255,.08)}
+td{border-bottom:1px solid rgba(255,255,255,.06);padding:7px 9px;vertical-align:top}
+tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr}
 td.c,th.c{text-align:center}
-tr.total td{background:#dff0d8;font-weight:bold}
-tr.grand td{background:#1f4d2e;color:#fff;font-weight:bold;font-size:14px}
-.cards{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
-.card{flex:1;min-width:140px;border:2px solid #1f4d2e;border-radius:8px;padding:10px;text-align:center}
+tr.total td{background:rgba(232,197,71,.08);font-weight:bold;border-top:1px solid rgba(232,197,71,.18)}
+tr.grand td{background:linear-gradient(90deg,rgba(232,197,71,.16),rgba(232,197,71,.06));color:#E8C547;font-weight:bold;font-size:14px;border-top:1px solid rgba(232,197,71,.26)}
+.cards{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}
+.card{flex:1;min-width:140px;background:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 10px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.35)}
 .card:last-child:nth-child(odd){flex-basis:100%}
-.card .v{font-size:17px;font-weight:bold}
-.card .l{font-size:12px;color:#444}
-a.ref{background:#fff3c4;border:1px solid #c9a100;border-radius:5px;padding:0 7px;text-decoration:none;color:#5a4a00;font-size:11.5px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px}
-a.ref:hover{background:#ffe27a}
-.refbox{background:#f7f9f4;border:1px solid #cfe0c8;border-radius:8px;padding:8px 12px;margin:6px 0}
-.refbox b.code{background:#1f4d2e;color:#fff;border-radius:5px;padding:0 8px;font-size:12px}
-.note{background:#fff8e1;border:1px solid #d4a017;border-radius:6px;padding:8px 12px;margin:8px 0}
-.how{color:#333;font-size:12px}
-.src{color:#666;font-size:11px}
-@media print{a.ref{text-decoration:none}.print-hide{display:none !important}}
+.card .v{font-size:19px;font-weight:900;color:#eef1f6;font-variant-numeric:tabular-nums;direction:ltr;text-shadow:0 0 18px rgba(232,197,71,.14)}
+.card .l{font-size:12px;color:rgba(238,241,246,.56);margin-top:4px}
+a.ref{background:rgba(232,197,71,.11);border:1px solid rgba(232,197,71,.25);border-radius:999px;padding:2px 10px;text-decoration:none;color:#E8C547;font-size:11.5px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px;font-weight:700}
+a.ref:hover{background:rgba(232,197,71,.20)}
+.refbox{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:8px 12px;margin:6px 0}
+.refbox b.code{background:rgba(232,197,71,.14);color:#E8C547;border-radius:5px;padding:0 8px;font-size:12px;border:1px solid rgba(232,197,71,.2)}
+.note{background:rgba(232,197,71,.06);border:1px solid rgba(232,197,71,.2);border-right:3px solid rgba(232,197,71,.45);border-radius:8px;padding:8px 12px;margin:8px 0;color:rgba(238,241,246,.75)}
+.how{color:rgba(238,241,246,.75);font-size:12px}
+.src{color:rgba(238,241,246,.4);font-size:11px}
+@media print{body{background:#fff;color:#111}h1,.card,.note,.refbox{background:#fff;color:#111}a.ref{text-decoration:none}.print-hide{display:none !important}}
 .tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
-.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:11px;color:#666;text-align:left;padding:2px 4px}
-@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:560px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:6px}.card{min-width:46%;padding:8px}.card .v{font-size:15px}td,th{font-size:12px;padding:4px 6px}a.ref{font-size:12px}}
+.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:11px;color:rgba(238,241,246,.4);text-align:left;padding:2px 4px}
+@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:560px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{min-width:46%;padding:10px 8px}.card .v{font-size:16px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
 </style>"""
 
 BRAND = """<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div>"""
 
 BCSS = """<style>
-.brand{display:flex;align-items:center;gap:10px;background:#12351f;color:#fff;border-radius:10px;padding:10px 14px;margin-bottom:4px;border-bottom:3px solid #c9a100}
-.brand .star{font-size:32px;color:#f2c400;line-height:1}
-.brand h1{margin:0;font-size:19px}
-.brand .tag{font-size:12px;color:#ddd}
+.brand{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1a2540 0%,#0f1a33 100%);color:#eef1f6;border-radius:14px;padding:10px 14px;margin-bottom:6px;border:1px solid rgba(232,197,71,.28);box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 18px rgba(232,197,71,.10)}
+.brand .star{font-size:32px;color:#E8C547;line-height:1;text-shadow:0 0 12px rgba(232,197,71,.4)}
+.brand h1{margin:0;font-size:19px;background:none;padding:0;text-align:right;color:#eef1f6;border:0}
+.brand .tag{font-size:12px;color:rgba(238,241,246,.56)}
 </style>"""
 
 def numfmt(c):
@@ -171,13 +171,30 @@ def _normalize_lang(html):
         ('بقت', 'أصبحت'),
         ('بعته', 'تم بيعه'),
         ('كل حاجة اتصرف فيها فلوس', 'تفصيل إجمالي المنصرف'),
+        ('دخلت المبيعات كأرباح', 'أُدرجت ضمن المبيعات كأرباح'),
+        ('البنود اللي بلا وزن', 'البنود التي بلا وزن'),
+        ('بنود البيع اللي بلا وزن', 'بنود البيع التي بلا وزن'),
+        ('سطور البيع اللي بلا وزن', 'سطور البيع التي بلا وزن'),
+        ('فدخلت الفلوس وخرجت من حساب الطن', 'فأُدرجت القيمة واستُبعدت من حساب الطن'),
+        ('بنود الشراء اللي بلا وزن', 'بنود الشراء التي بلا وزن'),
+        ('ومعروض كسطر منفصل مش داخل في صافي الربح', 'ومعروض كسطر منفصل غير داخل في صافي الربح'),
+        ('(مش مصروف)', '(وليست مصروفا)'),
+        ('(مش داخلة في الحساب)', '(غير داخلة في الحساب)'),
+        ('دي صفوف مجموع', 'هذه صفوف إجمالي'),
+        ('مش حركة بضاعة، ولو دخلت الحساب الكمية هتتضاعف', 'ليست حركة بضاعة، ولو أُدخلت في الحساب لتضاعفت الكمية'),
+        ('(قيمتها في بنود بلا وزن ومش في الطن)', '(قيمتها في بنود بلا وزن وليست في الطن)'),
+        ('لما اتصلح الوزن زاد', 'وعند تصحيح الوزن زاد'),
+        ('الأجور دي مسجّلة جوه صفوف المشتريات، فمحتمل تتداخل', 'هذه الأجور مسجلة ضمن صفوف المشتريات، ومن المحتمل تداخلها'),
+        ('أي زر أصفر', 'أي مرجع ذهبي'),
+        ('لما تدوس عليه يفتح مكان المصدر', 'عند النقر عليه يفتح موضع المصدر'),
     ]
     for a,b in reps:
         html = html.replace(a,b)
     return html
 
 def page(title, sub, body):
-    body = _normalize_lang(body)
+    body = _normalize_lang(body).replace('—', '·')
+    sub = sub.replace('—', '·')
     return f"""<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{title} - مضرب الدمياطي استار</title>{CSS}{BCSS}</head>
 <body><div class="wrap">{BRAND}<h1>{title}</h1><div class="sub">{sub}</div>{body}
 <div class="note print-hide">طريقة الاستخدام: أي زر أصفر <a class="ref">مرجع</a> لما تدوس عليه يفتح مكان المصدر في قاعدة البيانات على نفس السطر.</div>
@@ -586,20 +603,21 @@ def build_r7():
     darb, naw, khaled, exsh = 10535500.0, 2742708.6, 2751908.94, 7673558.0
     A = gt - darb - naw - khaled - 2300.0 + 147656.0  # مشتريات البضاعة (الشكاير كلها ضمن الشراء)
     oil, sams = 19709961.24, 921885.0
+    A, oil, sams = round(A), round(oil), round(sams)
     grain = A - oil - sams  # حبوب وخامات (صافي شامل كل التسويات)
     FULL = 25283902.29 + 2215893.0  # شامل سحبات غير مرصودة
     e1, p1, p2, pg = 844403.0, 0.0, 3507661.0, 4188879.0
     exp = e1 + p1 + p2 + pg
     grand = A  # الشكاير ضمن الشراء - والمصروفات والبند معلومة فقط
-    r = lambda n, v, ref='': f"<tr><td>{n}</td><td class='n'><b>{fmt(v)}</b></td><td class='src'>{ref}</td></tr>"
+    r = lambda n, v, ref='': f"<tr><td>{n}</td><td class='n'><b>{fmt(round(v))}</b></td><td class='src'>{ref}</td></tr>"
     t = '<table><tr><th>بند المنصرف</th><th class="n">القيمة (ج)</th><th>المرجع</th></tr>'
     t += r('حبوب وخامات طنّية (صافي شامل كل التسويات)', grain, link('5-إجمالي-المشتريات-بالأصناف.html', 'صفحة المشتريات'))
     t += r('زيت التشغيل (أحد مكونات مشتريات البضاعة - مفصل للبيان)', oil, link('5-إجمالي-المشتريات-بالأصناف.html', 'صفحة المشتريات'))
     t += r('سمسرة ولوازم شراء (845,180 + 59,000 + 9,000 + 6,000 + 1,425 + 1,280)', sams, link('5-إجمالي-المشتريات-بالأصناف.html', 'صفحة المشتريات'))
-    t += f"<tr class='grand'><td>مشتريات البضاعة</td><td class='n'>{fmt(A)}</td><td class='src'>{link('5-إجمالي-المشتريات-بالأصناف.html', 'التفصيل')}</td></tr>"
-    t += f"<tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + نولو1 2,300 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,598 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 + سحبات غير مرصودة 2,215,893 = <b>{fmt(FULL)}</b></td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'>{link('2-اجرة-المضرب-والناولون.html', 'صفحة البند')}</td></tr>"
-    t += f"<tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): ف1 إكسل 696,747 + ف2 خزنة لحد 30/9 (بدون ديل أكتوبر 145,610 المكرر مع البرنامج) 3,507,661 + برنامج 4,188,879 = <b>{fmt(exp - 147656.0)}</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'>{link('1-المصروفات-والارباح.html', 'صفحة الأرباح')}</td></tr>"
-    t += f"<tr class='grand'><td>المجموع الكلي للمنصرف</td><td class='n'>{fmt(grand)}</td><td></td></tr></table>"
+    t += f"<tr class='grand'><td>مشتريات البضاعة</td><td class='n'>{fmt(round(A))}</td><td class='src'>{link('5-إجمالي-المشتريات-بالأصناف.html', 'التفصيل')}</td></tr>"
+    t += f"<tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + نولو1 2,300 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,598 + نولون إكسل 74,786 + نولون بيع 44,000 + فرق 3,700 + سحبات غير مرصودة 2,215,893 = <b>{fmt(round(FULL))}</b></td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'>{link('2-اجرة-المضرب-والناولون.html', 'صفحة البند')}</td></tr>"
+    t += f"<tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): ف1 إكسل 696,747 + ف2 خزنة لحد 30/9 (بدون ديل أكتوبر 145,610 المكرر مع البرنامج) 3,507,661 + برنامج 4,188,879 = <b>{fmt(round(exp - 147656.0))}</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'>{link('1-المصروفات-والارباح.html', 'صفحة الأرباح')}</td></tr>"
+    t += f"<tr class='grand'><td>المجموع الكلي للمنصرف</td><td class='n'>{fmt(round(grand))}</td><td></td></tr></table>"
     t += '<h2>الرصيد الافتتاحي والختامي (أصل لا يدخل الربح)</h2><table><tr><th>البيان</th><th class="n">الطن</th><th class="n">القيمة (ج)</th></tr>'
     t += f"<tr><td>رصيد افتتاحي: 200 طن شعير (رأس مال الشغل بمتوسط سعر الشراء 16,236 ج/طن)</td><td class='n'>200.00</td><td class='n'>{fmt(3247201.24)}</td></tr>"
     t += f"<tr><td>مشتريات طنية (صافي بعد التسويات)<br>{link('3-حسابا-الاطنان.html', 'صفحة الأطنان')}</td><td class='n'>59,109.91</td><td class='n'></td></tr>"
