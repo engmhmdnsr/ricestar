@@ -125,11 +125,11 @@ a.ref:hover{background:rgba(232,197,71,.20)}
 .refbox b.code{background:rgba(232,197,71,.14);color:#E8C547;border-radius:5px;padding:0 8px;font-size:12px;border:1px solid rgba(232,197,71,.2)}
 .note{background:rgba(232,197,71,.06);border:1px solid rgba(232,197,71,.2);border-right:3px solid rgba(232,197,71,.45);border-radius:8px;padding:8px 12px;margin:8px 0;color:rgba(238,241,246,.75)}
 .how{color:rgba(238,241,246,.75);font-size:12px}
-.src{color:rgba(238,241,246,.4);font-size:11px}
+.src{color:rgba(238,241,246,.4);font-size:12px}
 @media print{body{background:#fff;color:#111}h1,.card,.note,.refbox{background:#fff;color:#111}a.ref{text-decoration:none}.print-hide{display:none !important}}
 .tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
-.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:11px;color:rgba(238,241,246,.4);text-align:left;padding:2px 4px}
-@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:620px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{flex:1 1 calc(50% - 8px);min-width:0;padding:10px 4px}.card .v{font-size:14px;letter-spacing:0;white-space:nowrap}.card .l{font-size:11px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
+.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:12px;color:rgba(238,241,246,.4);text-align:left;padding:2px 4px}
+@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:620px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{flex:1 1 calc(50% - 8px);min-width:0;padding:10px 4px}.card .v{font-size:14px;letter-spacing:0;white-space:nowrap}.card .l{font-size:12px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
 </style>"""
 
 BRAND = """<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div>"""
@@ -350,7 +350,7 @@ def build_r2():
         for r in ws.iter_rows(min_row=3, values_only=True):
             if r[0] is None: continue
             src = str(r[6] or '')
-            t += f"<tr><td class='c'>{r[0]}</td><td>{r[1] or ''}</td><td>{r[2] or ''}</td><td class='n'>{r[3] or ''}</td><td class='n'>{r[4] or ''}</td><td class='n'>{fmt(r[5]) if r[5] else ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
+            t += f"<tr><td class='c n'>{r[0]}</td><td>{r[1] or ''}</td><td>{r[2] or ''}</td><td class='n'>{r[3] or ''}</td><td class='n'>{r[4] or ''}</td><td class='n'>{fmt(r[5]) if r[5] else ''}</td><td class='src'>{linkify(src,'الحركة 2الحركة حركه تعديل الخزينة','')}</td></tr>"
         t += '</table>'
     wb.close()
     return page('أجرة المضرب والناولون - مضرب تعلب', 'تفصيلي كل سطر بمصدره، دوس على المرجع يفتح السطر الأصلي', t)
@@ -366,12 +366,18 @@ def build_r3():
             cells = [(str(c) if c is not None else '') for c in r]
             if all(c == '' for c in cells): continue
             if i <= 3:
-                t += '<tr>' + ''.join(f'<th>{linkify(c)}</th>' for c in cells if c != '') + '</tr>'
+                t += '<tr>' + ''.join(f'<th class="n">{linkify(c)}</th>' if re.match(r'^-?[\d,\.\s]+$', c.strip()) and re.search(r'\d', c) else f'<th>{linkify(c)}</th>' for c in cells if c != '') + '</tr>'
             else:
                 row = cells
                 if len(row) > 4: row[-1] = linkify(row[-1])
                 cls = 'total' if 'إجمالي' in cells[0] or 'الفرق' in cells[0] else ''
-                t += f"<tr class='{cls}'>" + ''.join(f'<td>{c}</td>' for c in row) + '</tr>'
+                def _td(c):
+                    raw = re.sub(r'<[^>]+>', '', c).strip()
+                    # numeric if pure number/tons/amount (digits, commas, dots, optional minus)
+                    if raw and re.match(r'^-?[\d,]+(\.\d+)?$', raw):
+                        return f'<td class="n">{c}</td>'
+                    return f'<td>{c}</td>'
+                t += f"<tr class='{cls}'>" + ''.join(_td(c) for c in row) + '</tr>'
         t += '</table>'
     ws = wb['المراجع']
     t += '<h2>المراجع</h2>'
@@ -395,11 +401,20 @@ def build_r4():
             while cells and cells[-1] == '': cells.pop()
             if not cells: continue
             if i < head_rows:
-                t += '<tr>' + ''.join(f'<th>{c}</th>' for c in cells) + '</tr>'
+                t += '<tr>' + ''.join(f'<th class="n">{c}</th>' if re.match(r'^-?[\d,\.\s]+$', c.strip()) and re.search(r'\d', c) else f'<th>{c}</th>' for c in cells) + '</tr>'
             else:
                 cells = [linkify(numfmt(c)) for c in cells]
                 cls = 'total' if any('الإجمالي' in c or 'النهائي' in c for c in cells) else ''
-                t += f"<tr class='{cls}'>" + ''.join(f'<td>{c}</td>' for c in cells) + '</tr>'
+                def _td2(c):
+                    raw = re.sub(r'<[^>]+>', '', c).strip().replace(',', '').strip()
+                    if raw and re.match(r'^-?\d+(\.\d+)?$', raw):
+                        return f'<td class="n">{c}</td>'
+                    # also amounts with commas already stripped but allow commas
+                    raw2 = re.sub(r'<[^>]+>', '', c).strip()
+                    if raw2 and re.match(r'^-?[\d,]+(\.\d+)?$', raw2):
+                        return f'<td class="n">{c}</td>'
+                    return f'<td>{c}</td>'
+                t += f"<tr class='{cls}'>" + ''.join(_td2(c) for c in cells) + '</tr>'
         t += '</table>'
     t += '<h2>المراجع (1 إلى 18)</h2>'
     for title, srcs, tbl, loc, how in ACCT_REFS:
