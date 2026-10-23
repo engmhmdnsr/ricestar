@@ -23,8 +23,10 @@ tr.grand td{background:var(--accent-soft2);color:var(--accent-text);font-weight:
 .cards{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}
 .card{flex:1;min-width:140px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:12px 10px;text-align:center;box-shadow:var(--card-shadow)}
 .card:last-child:nth-child(odd){flex-basis:100%}
-.card .v{font-size:19px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;direction:ltr;text-shadow:0 0 18px rgba(232,197,71,.14)}
+.card .v{font-size:19px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr;text-shadow:0 0 18px rgba(232,197,71,.14)}
 [data-theme="light"] .card .v{text-shadow:none;color:var(--text)}
+.card .v a.ref{color:var(--text) !important;background:var(--accent-soft) !important;border-color:var(--accent-bd) !important}
+[data-theme="light"] .card .v a.ref{color:var(--text) !important;background:var(--accent-soft) !important;border-color:var(--accent-bd) !important}
 .card .l{font-size:13.5px;color:var(--muted);margin-top:4px;font-weight:600}
 a.ref{background:var(--ref-bg);border:1px solid var(--ref-bd);border-radius:999px;padding:2px 10px;text-decoration:none;color:var(--ref-text);font-size:13px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px;font-weight:700}
 a.ref:hover{filter:brightness(1.05)}
