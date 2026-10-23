@@ -1,54 +1,98 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مضرب الدمياطي استار - قاعدة البيانات</title>
 <style>
-:root{--bg:#f4f1ea;--card:#fff;--ink:#222;--mut:#777;--line:#e2ddd2;--acc:#8a6d1c;--acc2:#a5851f}
+
+@page{size:A4;margin:10mm}
+:root{--bg:#050814;--bg-2:#070d1e;--text:#eef1f6;--muted:rgba(238,241,246,.56);--muted-2:rgba(238,241,246,.4);--muted-3:rgba(238,241,246,.75);--muted-th:rgba(238,241,246,.6);--card-bg:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));--card-solid:#111a2e;--card-border:rgba(255,255,255,.08);--card-shadow:0 10px 30px rgba(0,0,0,.35);--h1-bg:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));--h2-bg:rgba(255,255,255,.03);--h2-border:#E8C547;--th-bg:rgba(255,255,255,.05);--td-border:rgba(255,255,255,.06);--td-alt:rgba(255,255,255,.015);--accent:#E8C547;--accent-text:#E8C547;--accent-soft:rgba(232,197,71,.08);--accent-soft2:rgba(232,197,71,.16);--accent-soft3:rgba(232,197,71,.06);--accent-bd:rgba(232,197,71,.18);--accent-bd2:rgba(232,197,71,.26);--accent-bd3:rgba(232,197,71,.2);--ref-bg:rgba(232,197,71,.11);--ref-bd:rgba(232,197,71,.25);--ref-text:#E8C547;--refbox-bg:rgba(255,255,255,.03);--refbox-bd:rgba(255,255,255,.08);--note-bg:rgba(232,197,71,.06);--note-bd:rgba(232,197,71,.2);--note-bdr:rgba(232,197,71,.45);--brand-bg:linear-gradient(135deg,#1a2540 0%,#0f1a33 100%);--brand-bd:rgba(232,197,71,.28);--brand-shadow:0 6px 22px rgba(0,0,0,.45),0 0 18px rgba(232,197,71,.10);--brand-star:#E8C547;--brand-text:#eef1f6;--tbl-hint:rgba(238,241,246,.4);--toggle-bg:rgba(255,255,255,.06);--toggle-bd:rgba(255,255,255,.12);--toggle-text:#eef1f6}
+[data-theme="light"]{--bg:#fdfbf7;--bg-2:#f2ede1;--text:#1e293b;--muted:#64748b;--muted-2:#94a3b8;--muted-3:#334155;--muted-th:#475569;--card-bg:#ffffff;--card-solid:#ffffff;--card-border:#e7e5e4;--card-shadow:0 4px 16px rgba(0,0,0,.07);--h1-bg:#ffffff;--h2-bg:#f8f6f0;--h2-border:#c9a227;--th-bg:#f1f0eb;--td-border:#e7e5e4;--td-alt:#fdfbf7;--accent:#c9a227;--accent-text:#7a6200;--accent-soft:#fef9e6;--accent-soft2:#fef3c7;--accent-soft3:#fffbeb;--accent-bd:#fde68a;--accent-bd2:#fcd34d;--accent-bd3:#fde68a;--ref-bg:#fef9c3;--ref-bd:#fde68a;--ref-text:#854d0e;--refbox-bg:#ffffff;--refbox-bd:#e7e5e4;--note-bg:#fffbeb;--note-bd:#fde68a;--note-bdr:#f59e0b;--brand-bg:#ffffff;--brand-bd:#e7e5e4;--brand-shadow:0 2px 10px rgba(0,0,0,.06);--brand-star:#c9a227;--brand-text:#1e293b;--tbl-hint:#94a3b8;--toggle-bg:#ffffff;--toggle-bd:#e7e5e4;--toggle-text:#1e293b}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif}
-header{background:#12351f;color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5;border-bottom:3px solid #c9a100}
-.brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.brand .star{font-size:34px;color:#f2c400;line-height:1}
-.brand h1{margin:0;font-size:21px}
-header p{margin:2px 0 8px;color:#ddd;font-size:13px}
-nav.reps{display:flex;gap:8px;flex-wrap:wrap}
-nav.reps a{background:#a5851f;color:#fff;text-decoration:none;font-weight:bold;font-size:15px;padding:10px 18px;border-radius:10px}
-nav.reps a:hover{background:#c39d24}
-.wrap{display:flex;gap:12px;padding:12px;align-items:flex-start}
-aside{width:300px;min-width:260px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;position:sticky;top:86px;max-height:calc(100vh - 100px);overflow:auto}
-main{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
-input[type=text],select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:14px;font-family:inherit}
-button{padding:8px 14px;border:0;border-radius:8px;background:var(--acc);color:#fff;font-size:14px;cursor:pointer;font-family:inherit}
-button:hover{background:var(--acc2)}
-button.ghost{background:#eee;color:#222}
-.src{font-weight:bold;margin:10px 0 4px;font-size:14px;background:#f7f4ec;padding:6px 8px;border-radius:6px}
-.sheet{display:block;width:100%;text-align:right;background:none;border:0;padding:7px 8px;border-radius:6px;cursor:pointer;font-size:13.5px;color:var(--ink);font-family:inherit}
-.sheet:hover{background:#f3efe4}
-.sheet.on{background:#222;color:#fff}
-.sheet .n{color:var(--mut);font-size:12px}
-.sheet.on .n{color:#ddd}
+body{font-family:'Segoe UI',Tahoma,Arial,system-ui,sans-serif;direction:rtl;margin:0;color:var(--text);font-size:12.5px;line-height:1.75;background-color:var(--bg);background-image:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.10) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.08) 0%,transparent 60%),linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 40%,var(--bg) 100%);background-attachment:fixed}
+[data-theme="light"] body{background-image:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.06) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.04) 0%,transparent 60%),linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 40%,var(--bg) 100%)}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+.theme-toggle{background:var(--toggle-bg);color:var(--toggle-text);border:1px solid var(--toggle-bd);border-radius:999px;padding:6px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:var(--card-shadow);min-height:36px;min-width:90px}
+.theme-toggle:hover{opacity:.9}
+h1{font-size:19px;text-align:center;background:var(--h1-bg);color:var(--text);padding:12px;border-radius:14px;margin:0 0 6px;border:1px solid var(--card-border)}
+.sub{text-align:center;color:var(--muted);font-size:12px;margin-bottom:12px}
+h2{font-size:15px;background:var(--h2-bg);border-right:4px solid var(--h2-border);color:var(--text);padding:8px 12px;margin:18px 0 8px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:12.5px}
+th{background:var(--th-bg);color:var(--muted-th);padding:8px;font-size:11.5px;position:sticky;top:0;z-index:1;border-bottom:1px solid var(--card-border)}
+td{border-bottom:1px solid var(--td-border);padding:7px 9px;vertical-align:top}
+tr:nth-child(even) td{background:var(--td-alt)}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr}
+td.c,th.c{text-align:center}
+tr.total td{background:var(--accent-soft);font-weight:bold;border-top:1px solid var(--accent-bd)}
+tr.grand td{background:linear-gradient(90deg,var(--accent-soft2),var(--accent-soft3));color:var(--accent-text);font-weight:bold;font-size:14px;border-top:1px solid var(--accent-bd2)}
+.cards{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}
+.card{flex:1;min-width:140px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:12px 10px;text-align:center;box-shadow:var(--card-shadow)}
+.card:last-child:nth-child(odd){flex-basis:100%}
+.card .v{font-size:19px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;direction:ltr;text-shadow:0 0 18px rgba(232,197,71,.14)}
+[data-theme="light"] .card .v{text-shadow:none;color:var(--text)}
+.card .l{font-size:12px;color:var(--muted);margin-top:4px}
+a.ref{background:var(--ref-bg);border:1px solid var(--ref-bd);border-radius:999px;padding:2px 10px;text-decoration:none;color:var(--ref-text);font-size:11.5px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px;font-weight:700}
+a.ref:hover{filter:brightness(1.05)}
+.refbox{background:var(--refbox-bg);border:1px solid var(--refbox-bd);border-radius:10px;padding:8px 12px;margin:6px 0}
+.refbox b.code{background:var(--accent-soft);color:var(--accent-text);border-radius:5px;padding:0 8px;font-size:12px;border:1px solid var(--accent-bd3)}
+.note{background:var(--note-bg);border:1px solid var(--note-bd);border-right:3px solid var(--note-bdr);border-radius:8px;padding:8px 12px;margin:8px 0;color:var(--muted-3)}
+.how{color:var(--muted-3);font-size:12px}
+.src{color:var(--muted-2);font-size:11px}
+@media print{body{background:#fff !important;color:#111 !important;background-image:none !important}h1,.card,.note,.refbox{background:#fff !important;color:#111 !important}a.ref{text-decoration:none}.print-hide{display:none !important}.theme-toggle{display:none !important}}
+.tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
+.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:11px;color:var(--tbl-hint);text-align:left;padding:2px 4px}
+@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:620px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand h1{font-size:18px}.cards{gap:8px}.card{flex:1 1 calc(50% - 8px);min-width:0;padding:10px 4px}.card .v{font-size:14px;letter-spacing:0;white-space:nowrap}.card .l{font-size:11px}td,th{font-size:12px;padding:5px 6px}a.ref{font-size:12px}}
+
+
+.brand{display:flex;align-items:center;gap:10px;background:var(--brand-bg);color:var(--brand-text);border-radius:14px;padding:10px 14px;margin-bottom:6px;border:1px solid var(--brand-bd);box-shadow:var(--brand-shadow)}
+.brand .star{font-size:32px;color:var(--brand-star);line-height:1;text-shadow:0 0 12px rgba(232,197,71,.4)}
+[data-theme="light"] .brand .star{text-shadow:none}
+.brand h1{margin:0;font-size:19px;background:none;padding:0;text-align:right;color:var(--brand-text);border:0}
+.brand .tag{font-size:12px;color:var(--muted)}
+
+
+.page{max-width:1000px;margin:0 auto;padding:16px 16px 0}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+.theme-toggle{background:var(--toggle-bg);color:var(--toggle-text);border:1px solid var(--toggle-bd);border-radius:999px;padding:6px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:var(--card-shadow);min-height:36px;min-width:90px}
+.theme-toggle:hover{opacity:.9}
+nav.reps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+nav.reps a{background:var(--ref-bg);color:var(--ref-text);border:1px solid var(--ref-bd);text-decoration:none;font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;min-height:36px}
+nav.reps a:hover{filter:brightness(1.08)}
+.wrap{display:flex;gap:12px;padding:0 16px 16px;align-items:flex-start;max-width:1000px;margin:0 auto}
+aside{width:300px;min-width:260px;background:var(--card-bg);background-color:var(--card-solid);border:1px solid var(--card-border);border-radius:14px;padding:10px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;box-shadow:var(--card-shadow)}
+main{flex:1;background:var(--card-bg);background-color:var(--card-solid);border:1px solid var(--card-border);border-radius:14px;padding:12px;min-width:0;box-shadow:var(--card-shadow)}
+input[type=text],select{width:100%;padding:8px;border:1px solid var(--card-border);border-radius:8px;font-size:14px;font-family:inherit;background:var(--refbox-bg);color:var(--text)}
+input[type=text]::placeholder{color:var(--muted-2)}
+button{padding:8px 14px;border:0;border-radius:999px;background:var(--accent);color:#1a1a1a;font-size:14px;cursor:pointer;font-family:inherit;font-weight:700;border:1px solid var(--accent-bd2)}
+button:hover{filter:brightness(1.05)}
+button.ghost{background:var(--toggle-bg);color:var(--toggle-text);border:1px solid var(--toggle-bd)}
+button.ghost:disabled{opacity:.45;cursor:default}
+.src{font-weight:bold;margin:10px 0 4px;font-size:13px;background:var(--h2-bg);color:var(--muted-3);padding:6px 8px;border-radius:6px;border-right:3px solid var(--h2-border)}
+.sheet{display:block;width:100%;text-align:right;background:none;border:1px solid transparent;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--text);font-family:inherit}
+.sheet:hover{background:var(--accent-soft);border-color:var(--accent-bd)}
+.sheet.on{background:var(--accent-soft2);color:var(--accent-text);border-color:var(--accent-bd2);font-weight:700}
+.sheet .n{color:var(--muted);font-size:12px}
+.sheet.on .n{color:var(--muted)}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .toolbar input{flex:2;min-width:180px}
-.meta{color:var(--mut);font-size:13px;margin:6px 0}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{border:1px solid var(--line);padding:6px 8px;text-align:right;white-space:nowrap}
-th{background:#222;color:#fff;position:sticky;top:0}
-tr:nth-child(even) td{background:#faf8f2}
-tfoot td{background:#f0e9d4;font-weight:bold}
-.pager{display:flex;gap:6px;align-items:center;margin-top:10px;flex-wrap:wrap}
-.gres{padding:8px;border-bottom:1px solid var(--line);font-size:13px;cursor:pointer}
-.gres:hover{background:#f7f4ec}
-.gres b{color:var(--acc)}
+.meta{color:var(--muted);font-size:13px;margin:6px 0}
+.gres{padding:8px;border-bottom:1px solid var(--td-border);font-size:13px;cursor:pointer;color:var(--text)}
+.gres:hover{background:var(--accent-soft)}
+.gres b{color:var(--accent-text)}
 .num{direction:ltr;text-align:left;font-variant-numeric:tabular-nums}
 #t{overflow-x:auto}
-@media(max-width:900px){.wrap{flex-direction:column}aside{width:100%;position:static;max-height:300px}nav.reps a{flex:1 1 45%;text-align:center;font-size:14px;padding:10px 6px}.brand h1{font-size:18px}}
+@media(max-width:900px){.wrap{flex-direction:column;padding:0 10px 10px}aside{width:100%;position:static;max-height:300px}nav.reps a{flex:1 1 45%;text-align:center;font-size:13px;padding:8px 6px}.brand h1{font-size:18px}.page{padding:10px 10px 0}}
+
 </style>
+<script>(function(){try{var t=localStorage.getItem('ghazali-theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 </head>
 <body>
-<header>
-<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><p id="hstats">جاري التحميل...</p></div></div>
+<div class="page">
+<div class="topbar"><button id="theme-toggle" class="theme-toggle print-hide" type="button" aria-label="تبديل المظهر">نهاري / ليلي</button></div>
+<div class="brand"><span class="star">★</span><div><h1>مضرب الدمياطي استار</h1><div class="tag">تقارير المراجعة والحسابات</div></div></div>
+<div class="sub" id="hstats">جاري التحميل...</div>
 <nav class="reps">
 <a href="التقارير/1-المصروفات-والارباح.html">المصروفات والأرباح</a>
 <a href="التقارير/2-اجرة-المضرب-والناولون.html">أجرة المضرب والناولون</a>
@@ -58,7 +102,7 @@ tfoot td{background:#f0e9d4;font-weight:bold}
 <a href="التقارير/6-إجمالي-المبيعات-بالأصناف.html">إجمالي المبيعات بالأصناف</a>
 <a href="التقارير/7-إجمالي-المنصرف.html">إجمالي المنصرف</a>
 </nav>
-</header>
+</div>
 <div class="wrap">
 <aside>
 <input type="text" id="gsheet" placeholder="بحث عن شيت...">
@@ -172,5 +216,6 @@ function exportCSV(){
 $("q").oninput=applyFilter;$("gq").oninput=globalSearch;$("gexp").onclick=exportCSV;$("gsheet").oninput=e=>renderSheets(e.target.value);
 load();
 </script>
+<script>(function(){function upd(b){var c=document.documentElement.getAttribute('data-theme');b.textContent=c==='light'?'\u263e \u0644\u064a\u0644\u064a':'\u2600 \u0646\u0647\u0627\u0631\u064a';b.setAttribute('aria-label',b.textContent);}var btn=document.getElementById('theme-toggle');if(btn){upd(btn);btn.addEventListener('click',function(){var cur=document.documentElement.getAttribute('data-theme');var nxt=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',nxt);try{localStorage.setItem('ghazali-theme',nxt);}catch(e){} upd(btn);});}try{var s=localStorage.getItem('ghazali-theme');if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);if(btn)upd(btn);}}catch(e){}})();</script>
 </body>
 </html>
