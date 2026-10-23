@@ -112,7 +112,7 @@ button.ghost:disabled{opacity:.45;cursor:default}
 <div class="toolbar">
 <input type="text" id="q" placeholder="بحث داخل الشيت الحالي...">
 <input type="text" id="gq" placeholder="بحث شامل في كل الداتا...">
-<button id="gexp">تصدير CSV</button>
+<button id="gexp">تصدير CSV</button><button id="gexpXls">تصدير Excel</button>
 </div>
 <div class="meta" id="meta"></div>
 <div id="gresults"></div>
@@ -213,7 +213,59 @@ function exportCSV(){
   a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
   a.download=cur.sheet+".csv";a.click();
 }
-$("q").oninput=applyFilter;$("gq").oninput=globalSearch;$("gexp").onclick=exportCSV;$("gsheet").oninput=e=>renderSheets(e.target.value);
+function exportXLS(){
+  if(!cur||!filt){return;}
+  var H=cur.header;
+  var cols=cur.cols||H.length;
+  var tH=[].concat(H);while(tH.length<cols)tH.push("");
+  var hdrBg="#1a2540",hdrColor="#ffffff",totBg="#FFF8DC",totBd="#E8C547",altBg="#f8f6f0",numFmt="#,##0.0";
+  var ni=numIdx(),sums=new Array(cols).fill(0),has=new Array(cols).fill(false);
+  if(ni.length){filt.forEach(function(r){ni.forEach(function(c){var v=parseFloat((r[c]||"").replace(/,/g,""));if(!isNaN(v)){sums[c]+=v;has[c]=true;}});});}
+  function tdStyle(isN,isAlt,isTot){var s="border:1px solid #d9d6ce;padding:6px 8px;font-size:11pt;font-family:Tahoma,Arial,sans-serif;vertical-align:top;";
+    if(isTot){s+="background:"+totBg+";font-weight:bold;border-top:2px solid "+totBd+";";}
+    else if(isAlt){s+="background:"+altBg+";";}
+    else{s+="background:#ffffff;";}
+    if(isN){s+="mso-number-format:'"+numFmt+"';text-align:left;direction:ltr;";}
+    else{s+="text-align:right;";}
+    return s;
+  }
+  var thStyle="border:1px solid #1a2540;padding:7px 8px;font-size:11pt;font-family:Tahoma,Arial,sans-serif;font-weight:bold;background:"+hdrBg+";color:"+hdrColor+";text-align:center;vertical-align:middle;";
+  var html='<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40" lang="ar" dir="rtl"><head><meta charset="utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style>table{border-collapse:collapse;direction:rtl} td,th{border:1px solid #d9d6ce}</style><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>'+esc(cur.sheet).slice(0,31)+'</x:Name><x:WorksheetOptions><x:DisplayRightToLeft/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body dir="rtl"><table dir="rtl" style="border-collapse:collapse;direction:rtl;width:100%">'
+  html+='<tr><th style="'+thStyle+'">#</th>';
+  tH.forEach(function(c){html+='<th style="'+thStyle+'">'+esc(c)+'</th>';});
+  html+='</tr>';
+  filt.forEach(function(r,i){
+    var alt=(i%2===1);
+    html+='<tr>';
+    html+='<td style="'+tdStyle(true,alt,false)+'">'+(i+1)+'</td>';
+    r.forEach(function(c,ci){
+      var isN=isNum(c);
+      var raw=isN?parseFloat((c||"").replace(/,/g,"")):null;
+      var val=isN&&!isNaN(raw)?raw:esc(c);
+      if(isN&&!isNaN(raw)){html+='<td style="'+tdStyle(true,alt,false)+'" x:num>'+val+'</td>';}
+      else{html+='<td style="'+tdStyle(false,alt,false)+'">'+esc(c)+'</td>';}
+    });
+    for(var p=r.length;p<cols;p++){html+='<td style="'+tdStyle(false,alt,false)+'"></td>';}
+    html+='</tr>';
+  });
+  if(ni.length){
+    html+='<tr>';
+    html+='<td style="'+tdStyle(false,false,true)+'">المجموع</td>';
+    for(var c2=0;c2<cols;c2++){
+      if(has[c2]){html+='<td style="'+tdStyle(true,false,true)+'" x:num>'+sums[c2]+'</td>';}
+      else{html+='<td style="'+tdStyle(false,false,true)+'"></td>';}
+    }
+    html+='</tr>';
+  }
+  html+='</table></body></html>';
+  var blob=new Blob(["\ufeff"+html],{type:"application/vnd.ms-excel;charset=utf-8"});
+  var a2=document.createElement("a");
+  a2.href=URL.createObjectURL(blob);
+  a2.download=cur.sheet+".xls";
+  a2.click();
+  setTimeout(function(){URL.revokeObjectURL(a2.href);},1500);
+}
+$("q").oninput=applyFilter;$("gq").oninput=globalSearch;$("gexp").onclick=exportCSV;$("gexpXls").onclick=exportXLS;$("gsheet").oninput=e=>renderSheets(e.target.value);
 load();
 </script>
 <script>(function(){function upd(b){var c=document.documentElement.getAttribute('data-theme');b.textContent=c==='light'?'\u263e \u0644\u064a\u0644\u064a':'\u2600 \u0646\u0647\u0627\u0631\u064a';b.setAttribute('aria-label',b.textContent);}var btn=document.getElementById('theme-toggle');if(btn){upd(btn);btn.addEventListener('click',function(){var cur=document.documentElement.getAttribute('data-theme');var nxt=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',nxt);try{localStorage.setItem('ghazali-theme',nxt);}catch(e){} upd(btn);});}try{var s=localStorage.getItem('ghazali-theme');if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);if(btn)upd(btn);}}catch(e){}})();</script>
