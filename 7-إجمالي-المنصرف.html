@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>إجمالي المنصرف - مضرب تعلب - مضرب الدمياطي استار</title><style>
+@page{size:A4;margin:10mm}
+:root{--bg:#050814;--bg-2:#070d1e;--text:#eef1f6;--muted:rgba(238,241,246,.78);--muted-2:rgba(238,241,246,.65);--muted-3:rgba(238,241,246,.85);--muted-th:rgba(238,241,246,.72);--card-bg:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));--card-solid:#111a2e;--card-border:rgba(255,255,255,.08);--card-shadow:0 10px 30px rgba(0,0,0,.35);--h1-bg:linear-gradient(180deg,rgba(22,34,64,.92),rgba(17,26,46,.96));--h2-bg:rgba(255,255,255,.03);--h2-border:#E8C547;--th-bg:rgba(255,255,255,.05);--td-border:rgba(255,255,255,.06);--td-alt:rgba(255,255,255,.015);--accent:#E8C547;--accent-text:#E8C547;--accent-soft:rgba(232,197,71,.08);--accent-soft2:rgba(232,197,71,.16);--accent-soft3:rgba(232,197,71,.06);--accent-bd:rgba(232,197,71,.18);--accent-bd2:rgba(232,197,71,.26);--accent-bd3:rgba(232,197,71,.2);--ref-bg:rgba(232,197,71,.11);--ref-bd:rgba(232,197,71,.25);--ref-text:#E8C547;--refbox-bg:rgba(255,255,255,.03);--refbox-bd:rgba(255,255,255,.08);--note-bg:rgba(232,197,71,.06);--note-bd:rgba(232,197,71,.2);--note-bdr:rgba(232,197,71,.45);--brand-bg:linear-gradient(135deg,#1a2540 0%,#0f1a33 100%);--brand-bd:rgba(232,197,71,.28);--brand-shadow:0 6px 22px rgba(0,0,0,.45),0 0 18px rgba(232,197,71,.10);--brand-star:#E8C547;--brand-text:#eef1f6;--tbl-hint:rgba(238,241,246,.65);--toggle-bg:rgba(255,255,255,.06);--toggle-bd:rgba(255,255,255,.12);--toggle-text:#eef1f6}
+[data-theme="light"]{--bg:#fdfbf7;--bg-2:#f2ede1;--text:#1e293b;--muted:#334155;--muted-2:#475569;--muted-3:#1e293b;--muted-th:#334155;--card-bg:#ffffff;--card-solid:#ffffff;--card-border:#e7e5e4;--card-shadow:0 4px 16px rgba(0,0,0,.07);--h1-bg:#ffffff;--h2-bg:#f8f6f0;--h2-border:#c9a227;--th-bg:#f1f0eb;--td-border:#e7e5e4;--td-alt:#fdfbf7;--accent:#c9a227;--accent-text:#7a6200;--accent-soft:#fef9e6;--accent-soft2:#fef3c7;--accent-soft3:#fffbeb;--accent-bd:#fde68a;--accent-bd2:#fcd34d;--accent-bd3:#fde68a;--ref-bg:#fef9c3;--ref-bd:#fde68a;--ref-text:#854d0e;--refbox-bg:#ffffff;--refbox-bd:#e7e5e4;--note-bg:#fffbeb;--note-bd:#fde68a;--note-bdr:#f59e0b;--brand-bg:#ffffff;--brand-bd:#e7e5e4;--brand-shadow:0 2px 10px rgba(0,0,0,.06);--brand-star:#c9a227;--brand-text:#1e293b;--tbl-hint:#475569;--toggle-bg:#ffffff;--toggle-bd:#e7e5e4;--toggle-text:#1e293b}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,Arial,system-ui,sans-serif;direction:rtl;margin:0;color:var(--text);font-size:12.5px;line-height:1.75;background-color:var(--bg);background-image:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.10) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.08) 0%,transparent 60%),linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 40%,var(--bg) 100%);background-attachment:fixed}
+[data-theme="light"] body{background-image:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.06) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.04) 0%,transparent 60%),linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 40%,var(--bg) 100%)}
+.wrap{max-width:1540px;width:96%;margin:0 auto;padding:16px}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+.theme-toggle{background:var(--toggle-bg);color:var(--toggle-text);border:1px solid var(--toggle-bd);border-radius:999px;padding:6px 16px;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:var(--card-shadow);min-height:36px;min-width:90px}
+.theme-toggle:hover{opacity:.9}
+h1{font-size:19px;text-align:center;background:var(--h1-bg);color:var(--text);padding:12px;border-radius:14px;margin:0 0 6px;border:1px solid var(--card-border)}
+.sub{text-align:center;color:var(--muted);font-size:14px;margin-bottom:12px}
+h2{font-size:15px;background:var(--h2-bg);border-right:4px solid var(--h2-border);color:var(--text);padding:8px 12px;margin:18px 0 8px;border-radius:8px}
+table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:13px}
+th{background:var(--th-bg);color:var(--muted-th);padding:8px;font-size:13px;position:sticky;top:0;z-index:1;border-bottom:1px solid var(--card-border)}
+td{border-bottom:1px solid var(--td-border);padding:7px 9px;vertical-align:top;font-size:13px}
+tr:nth-child(even) td{background:var(--td-alt)}
+td.n,th.n{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr}
+td.c,th.c{text-align:center}
+tr.total td{background:var(--accent-soft);font-weight:bold;border-top:1px solid var(--accent-bd)}
+tr.grand td{background:var(--accent-soft2);color:var(--accent-text);font-weight:bold;font-size:14px;border-top:1px solid var(--accent-bd2)}
+.cards{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap}
+.card{flex:1;min-width:140px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:12px 10px;text-align:center;box-shadow:var(--card-shadow)}
+.card:last-child:nth-child(odd){flex-basis:100%}
+.card .v{font-size:19px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr;text-shadow:0 0 18px rgba(232,197,71,.14)}
+[data-theme="light"] .card .v{text-shadow:none;color:var(--text)}
+.card .v a.ref,.card .v a.ref:hover,[data-theme="light"] .card .v a.ref,[data-theme="light"] .card .v a.ref:hover{background:none !important;background-color:transparent !important;border:0 !important;border-radius:0 !important;padding:0 !important;font-size:19px !important;color:var(--text) !important;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr;font-weight:900;text-decoration:none;box-shadow:none !important;min-height:0 !important;min-width:0 !important;display:inline !important}
+.card .l{font-size:13.5px;color:var(--muted);margin-top:4px;font-weight:600}
+a.ref, span.ref{background:var(--ref-bg);border:1px solid var(--ref-bd);border-radius:999px;padding:2px 10px;text-decoration:none;color:var(--ref-text);font-size:13px;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;min-height:32px;min-width:32px;font-weight:700}
+a.ref:hover, span.ref:hover{filter:brightness(1.05)}
+.refbox{background:var(--refbox-bg);border:1px solid var(--refbox-bd);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:13px}
+.refbox b.code{background:var(--accent-soft);color:var(--accent-text);border-radius:5px;padding:0 8px;font-size:13px;border:1px solid var(--accent-bd3)}
+.note{background:var(--note-bg);border:1px solid var(--note-bd);border-right:3px solid var(--note-bdr);border-radius:8px;padding:8px 12px;margin:8px 0;color:var(--muted-3);font-size:13.5px}
+.how{color:var(--muted-3);font-size:13px}
+.src{color:var(--muted-2);font-size:13px}
+@media print{body{background:#fff !important;color:#111 !important;background-image:none !important}h1,.card,.note,.refbox{background:#fff !important;color:#111 !important}a.ref{color:#111 !important;background:#fff !important;border-color:#999 !important;text-decoration:none}tr.grand td{color:#111 !important;background:#f1f5f9 !important;border-color:#bbb !important}.print-hide{display:none !important}.theme-toggle{display:none !important}}
+.tbl{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
+.tbl::after{content:'◀ اسحب لعرض باقي الجدول';display:none;font-size:12px;color:var(--tbl-hint);text-align:left;padding:2px 4px}
+@media(max-width:640px){.tbl::after{display:block}.tbl table{min-width:620px}body{font-size:13px}.wrap{padding:10px}h1{font-size:16px}.brand .brand-title{font-size:18px}.cards{gap:8px}.card{flex:1 1 calc(50% - 8px);min-width:0;padding:10px 4px}.card .v{font-size:14px;letter-spacing:0;white-space:nowrap}.card .v a.ref,.card .v a.ref:hover,[data-theme="light"] .card .v a.ref,[data-theme="light"] .card .v a.ref:hover{font-size:14px !important}.card .l{font-size:12px}td,th{font-size:12px;padding:5px 6px}a.ref, span.ref{font-size:12px}}
+</style><style>
+.brand{display:flex;align-items:center;gap:10px;background:var(--brand-bg);color:var(--brand-text);border-radius:14px;padding:10px 14px;margin-bottom:6px;border:1px solid var(--brand-bd);box-shadow:var(--brand-shadow)}
+.brand .star{font-size:32px;color:var(--brand-star);line-height:1;text-shadow:0 0 12px rgba(232,197,71,.4)}
+[data-theme="light"] .brand .star{text-shadow:none}
+.brand .brand-title{margin:0;font-size:19px;background:none;padding:0;text-align:right;color:var(--brand-text);border:0;font-weight:900}
+.brand .tag{font-size:13.5px;color:var(--muted);font-weight:600}
+</style><style>
+.export-bar{display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;margin:10px 0}
+.export-bar button{background:#1a2540;color:#fff;border:1px solid #1a2540;border-radius:10px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;min-height:34px}
+.export-bar button:hover{filter:brightness(1.08)}
+[data-theme="light"] .export-bar button{background:#1a2540;color:#fff;border-color:#1a2540}
+@media print{.export-bar{display:none !important}}
+@media(max-width:640px){.export-bar{justify-content:stretch}.export-bar button{flex:1 1 auto}}
+</style><style>
+#ghz-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:radial-gradient(900px 500px at 85% 0%,rgba(232,197,71,.10) 0%,transparent 55%),radial-gradient(700px 400px at 10% 20%,rgba(120,90,255,.08) 0%,transparent 60%),linear-gradient(180deg,#050814 0%,#070d1e 100%);padding:20px}
+#ghz-gate[hidden]{display:none !important}
+#ghz-gate-card{background:linear-gradient(180deg,rgba(22,34,64,.96),rgba(17,26,46,.98));border:1px solid rgba(255,255,255,.08);border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.55),0 0 22px rgba(232,197,71,.10);padding:22px 18px;max-width:360px;width:100%;text-align:center}
+#ghz-gate-card h2{margin:0 0 6px;font-size:18px;color:#eef1f6}
+#ghz-gate-card p{margin:0 0 14px;color:rgba(238,241,246,.72);font-size:13px}
+#ghz-gate-input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#eef1f6;font-size:16px;text-align:center;letter-spacing:.14em;direction:ltr}
+#ghz-gate-input::placeholder{color:rgba(238,241,246,.45);letter-spacing:0}
+#ghz-gate-btn{margin-top:12px;width:100%;padding:10px;border-radius:999px;border:1px solid rgba(232,197,71,.26);background:#E8C547;color:#111;font-weight:800;font-size:15px;cursor:pointer}
+#ghz-gate-btn:hover{filter:brightness(1.06)}
+#ghz-gate-err{margin-top:10px;color:#ffb4a8;font-size:13px;min-height:18px}
+@media print{#ghz-gate{display:none !important}}
+</style><script>(function(){try{var t=localStorage.getItem('ghazali-theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script></head>
+<body><div id="ghz-gate" role="dialog" aria-modal="true" aria-label="تسجيل الدخول"><div id="ghz-gate-card"><h2>تسجيل الدخول</h2><p>ادخل كلمة المرور لعرض التقارير</p><input id="ghz-gate-input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="كلمة المرور"><button id="ghz-gate-btn" type="button">دخول</button><div id="ghz-gate-err" aria-live="polite"></div></div></div><script>(function(){var KEY='ghazali_gate_ok';var PASS='13072026';function hideGate(){var g=document.getElementById('ghz-gate');if(g) g.hidden=true;try{document.documentElement.style.overflow='';}catch(e){}}try{if(sessionStorage.getItem(KEY)==='1'){hideGate();}}catch(e){}document.addEventListener('DOMContentLoaded',function(){var g=document.getElementById('ghz-gate');var inp=document.getElementById('ghz-gate-input');var btn=document.getElementById('ghz-gate-btn');var err=document.getElementById('ghz-gate-err');if(!g||!inp||!btn) return;try{if(sessionStorage.getItem(KEY)==='1'){g.hidden=true;return;}}catch(e){}g.hidden=false;try{document.documentElement.style.overflow='hidden';}catch(e){}function unlock(){var v=(inp.value||'').trim();if(v===PASS){try{sessionStorage.setItem(KEY,'1');}catch(e){}g.hidden=true;try{document.documentElement.style.overflow='';}catch(e){}if(err) err.textContent='';}else{if(err) err.textContent='كلمة المرور غير صحيحة';try{inp.focus();inp.select();}catch(e){}}}if(btn) btn.addEventListener('click',unlock);if(inp) inp.addEventListener('keydown',function(e){if(e.key==='Enter') unlock();});setTimeout(function(){try{inp.focus();}catch(e){}},90);});try{var gg=document.getElementById('ghz-gate');if(gg&&sessionStorage.getItem(KEY)==='1') gg.hidden=true;}catch(e){}})();</script><div class="wrap"><div class="topbar"><button id="theme-toggle" class="theme-toggle print-hide" type="button" aria-label="تبديل المظهر">نهاري / ليلي</button></div><div class="brand"><span class="star">★</span><div><div class="brand-title">مضرب الدمياطي استار</div><div class="tag">تقارير المراجعة والحسابات</div></div></div><h1>إجمالي المنصرف - مضرب تعلب</h1><div class="sub">تفصيل إجمالي المنصرف: خامات + شكاير + أجرة + مصروفات</div><div class="export-bar print-hide"><button type="button" onclick="window.print()">تصدير PDF</button><button type="button" onclick="ghazaliExportExcel()">تصدير Excel</button></div><div class="tbl"><table><tr><th>بند المنصرف</th><th class="n">القيمة (ج)</th><th>المرجع</th></tr><tr><td>حبوب وخامات طنّية (صافي شامل كل التسويات)</td><td class='n'><b>918,244,314</b></td><td class='src'><a class="ref" href="5-إجمالي-المشتريات-بالأصناف.html" target="_blank">صفحة المشتريات</a></td></tr><tr><td>زيت التشغيل (أحد مكونات مشتريات البضاعة - مفصل للبيان)</td><td class='n'><b>19,709,961</b></td><td class='src'><a class="ref" href="5-إجمالي-المشتريات-بالأصناف.html" target="_blank">صفحة المشتريات</a></td></tr><tr><td>سمسرة ولوازم شراء (845,180 + 59,000 + 9,000 + 6,000 + 1,425 + 1,280)</td><td class='n'><b>921,885</b></td><td class='src'><a class="ref" href="5-إجمالي-المشتريات-بالأصناف.html" target="_blank">صفحة المشتريات</a></td></tr><tr class='grand'><td>مشتريات البضاعة</td><td class='n'>938,876,160</td><td class='src'><a class="ref" href="5-إجمالي-المشتريات-بالأصناف.html" target="_blank">التفصيل</a></td></tr><tr><td>بند الضرب والناولون (خارج المنصرف - يرد على الأرباح): ضرب 10,535,500 + نولون 2,742,709 + نولو1 2,300 + خالد 2,751,909 + حساب مضرب 8,445,400 + 650/طن 683,598 + نولون ف1 519,000 + نولون ف2 2,076,545 (بعد خصم 220,000) + فرق 3,700 + سحبات غير مرصودة 2,215,893 = <b>29,976,554</b></td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'><a class="ref" href="2-اجرة-المضرب-والناولون.html" target="_blank">صفحة البند</a></td></tr><tr><td>مصروفات التشغيل (في بند المصروفات - تفصيلها في صفحة الأرباح): ف1 إكسل 696,747 + ف2 خزنة لحد 30/9 (بدون ديل أكتوبر 145,610 المكرر مع البرنامج) 3,507,661 + برنامج 4,188,879 = <b>8,393,287</b> (بعد نقل شكاير المصروفات للشراء)</td><td class='n'>إيضاح فقط غير داخل في التجميع</td><td class='src'><a class="ref" href="1-المصروفات-والارباح.html" target="_blank">صفحة الأرباح</a></td></tr><tr class='grand'><td>المجموع الكلي للمنصرف (= مشتريات البضاعة أعلاه - البند والمصروفات معلومة فقط)</td><td class='n'>938,876,160</td><td class='src'><a class="ref" href="5-إجمالي-المشتريات-بالأصناف.html" target="_blank">صفحة المشتريات</a></td></tr></table></div><h2>الرصيد الافتتاحي والختامي (أصل لا يدخل الربح)</h2><div class="tbl"><table><tr><th>البيان</th><th class="n">الطن</th><th class="n">القيمة (ج)</th></tr><tr><td>رصيد افتتاحي: 200 طن شعير (رأس مال الشغل بمتوسط سعر الشراء 16,236 ج/طن)<br><a class="ref" href="3-حسابا-الاطنان.html" target="_blank">صفحة الأطنان</a></td><td class='n'>200.0</td><td class='n'>3,247,201</td></tr><tr><td>مشتريات طنية (صافي بعد التسويات)<br><a class="ref" href="3-حسابا-الاطنان.html" target="_blank">صفحة الأطنان</a></td><td class='n'>59,109.9</td><td class='n'></td></tr><tr><td>مبيعات طنية<br><a class="ref" href="3-حسابا-الاطنان.html" target="_blank">صفحة الأطنان</a></td><td class='n'>57,659.2</td><td class='n'></td></tr><tr class="grand"><td>الرصيد الختامي (200 + 59,109.9 - 57,659.2)</td><td class="n">1,650.7</td><td class="n">أصل مخزون</td></tr><tr><td>قيمة الختامي الإيضاحية بسعر التكلفة (1,650.7 طن × 16,236 ج/طن)</td><td class='n'>1,650.7</td><td class='n'>26,801,090 (<a class='ref' href='3-حسابا-الاطنان.html'>محسوب من صفحة الأطنان</a>)</td></tr><tr><td>مخزون زيت للتصفية: 21 برميل × 19,000 ج (جرد فعلي بقرار المالك)<br><a class="ref" href="6-إجمالي-المبيعات-بالأصناف.html" target="_blank">دخل المبيعات</a></td><td class='n'>21 برميل</td><td class='n'>399,000 (إيضاح فقط)</td></tr><tr><td>مخزون حبوب للتصفية: 106.3 طن (جرد فعلي بقرار المالك)<br><a class="ref" href="6-إجمالي-المبيعات-بالأصناف.html" target="_blank">دخل المبيعات</a></td><td class='n'>106.3</td><td class='n'>1,938,000 (إيضاح فقط)</td></tr><tr class='grand'><td>إجمالي المخزون للتصفية (زيت + حبوب)</td><td class='n'></td><td class='n'>2,337,000</td></tr></table></div><div class="note">كل جنيه اتصرف: بضاعة + شكاير إكسل + أجرة + مصروفات. الحبوب محسوبة كصافي (إجمالي R5 − الأجرة − الزيت − السمسرة + شكاير المصروفات المنقولة) فالصفحة موزونة بالجنيه: الحبوب + الزيت + السمسرة = مشتريات البضاعة.</div><div class="note print-hide">طريقة الاستخدام: أي زر أصفر <span class="ref">مرجع</span> لما تدوس عليه يفتح مكان المصدر في قاعدة البيانات على نفس السطر.</div>
+</div><script>
+function ghazaliExportExcel(){
+  try{
+    var h1=document.querySelector('h1');
+    var title=h1?h1.textContent.trim():document.title;
+    var fname=title.replace(/[\/:*?"<>|]+/g,'_')+'.xls';
+    var tables=document.querySelectorAll('table');
+    if(!tables.length) return;
+    function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function isNumericCell(raw){
+      var t=raw.replace(/,/g,'').trim();
+      // strip common Arabic units for detection
+      var u=t.replace(/طن/g,'').replace(/كجم/g,'').replace(/شيكارة/g,'').replace(/برميل/g,'').replace(/ج/g,'').replace(/سندات/g,'').replace(/سطر/g,'').trim();
+      u=u.replace(/\s+/g,'');
+      if(!u) return {ok:false};
+      if(!/^-?\d+(\.\d+)?$/.test(u)) return {ok:false};
+      return {ok:true,val:u,hasDot:u.indexOf('.')>=0};
+    }
+    var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><meta name="ProgId" content="Excel.Sheet"><style>th{background-color:#1a2540;color:#ffffff;font-weight:bold}td,th{border:1px solid #999;padding:6px;font-size:12px}</style></head><body dir="rtl"><table dir="rtl" style="direction:rtl;border-collapse:collapse">';
+    html+='<tr><th colspan="20" style="background-color:#1a2540;color:#ffffff;font-weight:bold;text-align:center">'+esc(title)+'</th></tr>';
+    tables.forEach(function(tbl){
+      var container=tbl.closest('.tbl')||tbl;
+      var sib=container.previousElementSibling;
+      var h2txt='';
+      while(sib){
+        if(sib.tagName==='H2'){h2txt=sib.textContent.trim();break;}
+        sib=sib.previousElementSibling;
+      }
+      if(h2txt){
+        html+='<tr><th colspan="20" style="background-color:#1a2540;color:#ffffff;font-weight:bold;text-align:right">'+esc(h2txt)+'</th></tr>';
+      }
+      var rows=tbl.querySelectorAll('tr');
+      rows.forEach(function(tr){
+        var isHeader=tr.querySelector('th')!==null;
+        html+='<tr>';
+        var cells=tr.querySelectorAll('th,td');
+        cells.forEach(function(c){
+          var raw=c.innerText.trim().replace(/ /g,' ');
+          if(!raw) raw='';
+          var tag=isHeader?'th':'td';
+          if(isHeader){
+            html+='<th style="background-color:#1a2540;color:#ffffff;font-weight:bold;text-align:center">'+esc(raw)+'</th>';
+          } else {
+            var chk=isNumericCell(raw);
+            // also handle numbers with thousands separators displayed: e.g. 993,618,738
+            // chk already checks stripped value
+            // For mixed like "1,650.7 طن" - need to detect leading number part?
+            if(!chk.ok){
+              var m=raw.match(/^-?[\d,]+(\.\d+)?/);
+              if(m){
+                var lead=m[0].replace(/,/g,'');
+                if(/^-?\d+(\.\d+)?$/.test(lead)){
+                  var rest=raw.slice(m[0].length).trim();
+                  // if rest is only known units, treat as numeric
+                  var restClean=rest.replace(/طن|كجم|شيكارة|برميل|ج|سندات|سطر/g,'').trim();
+                  if(restClean===''||restClean==='·'){
+                    chk={ok:true,val:lead,hasDot:lead.indexOf('.')>=0};
+                  }
+                }
+              }
+            }
+            if(chk.ok){
+              var fmt=chk.hasDot?'#,##0.0':'#,##0';
+              html+='<td x:num="'+esc(chk.val)+'" style="mso-number-format:"'+fmt+'";text-align:left;direction:ltr">'+esc(raw)+'</td>';
+            } else {
+              var align=c.classList.contains('n')?' style="text-align:left;direction:ltr"':'';
+              html+='<td'+align+'>'+esc(raw)+'</td>';
+            }
+          }
+        });
+        html+='</tr>';
+      });
+    });
+    html+='</table></div></body></html>';
+    var blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download=fname;document.body.appendChild(a);a.click();
+    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},500);
+  }catch(e){console.error(e);}
+}
+</script><script>(function(){function upd(b){var c=document.documentElement.getAttribute('data-theme');b.textContent=c==='light'?'☾ ليلي':'☀ نهاري';b.setAttribute('aria-label',b.textContent);}var btn=document.getElementById('theme-toggle');if(btn){upd(btn);btn.addEventListener('click',function(){var cur=document.documentElement.getAttribute('data-theme');var nxt=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',nxt);try{localStorage.setItem('ghazali-theme',nxt);}catch(e){} upd(btn);});}try{var s=localStorage.getItem('ghazali-theme');if(s==='light'||s==='dark'){document.documentElement.setAttribute('data-theme',s);if(btn)upd(btn);}}catch(e){}})();</script></body></html>
