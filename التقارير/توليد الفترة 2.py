@@ -62,8 +62,9 @@ td{padding:7px 8px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:
 tr:nth-child(even) td{background:rgba(255,255,255,.015)}
 tr:hover td{background:rgba(232,197,71,.07)}
 td.n,th.n{text-align:left;direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-variant-numeric:tabular-nums}
-tr.sum td{background:rgba(232,197,71,.12);font-weight:700}
-.ref{font-size:11px;background:var(--gold-dim);border:1px solid rgba(232,197,71,.25);border-radius:6px;padding:2px 7px;white-space:nowrap}
+tr.sum td,tr.tot td{background:rgba(232,197,71,.12);font-weight:700}
+.sumhdr{font-size:20px;color:var(--gold);font-weight:700;margin:30px 0 4px;padding-bottom:8px;border-bottom:1px solid rgba(232,197,71,.35)}
+.ref{font-size:11px;background:var(--gold-dim);border:1px solid rgba(232,197,71,.25);border-radius:6px;padding:2px 7px;white-space:normal;display:inline-block}
 .pg{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--mut);font-size:13px}
 .note{background:rgba(232,197,71,.06);border:1px solid rgba(232,197,71,.2);border-right:3px solid var(--gold);border-radius:8px;padding:12px 16px;margin:16px 0;color:var(--mut);font-size:13px}
 .back{display:inline-block;margin-bottom:14px;font-size:13px}
@@ -321,8 +322,8 @@ write('expenses.html', page(
 cards = [
     ('شراء', 'purchases.html', f'{len(buy):,}', f'{money(buy_qty, 1)} طن', 'مشتريات وموردين · ميزان الموردين'),
     ('بيع', 'sales.html', f'{len(sell):,}', f'{money(sell_qty, 1)} طن', 'مبيعات وعملاء · ميزان العملاء'),
-    ('ضرب وناولون', 'milling-freight.html', f'{len(mill) + len(freight):,}', '22,420,107.44 جنيه', 'حساب المضرب · الخزينة · البرنامج'),
-    ('مصروفات', 'expenses.html', f'{len(exp) + len(pay):,}', '6,982,859.50 جنيه', 'شيت المصروفات · مسير المرتبات'),
+    ('ضرب وناولون', 'milling-freight.html', f'{len(mill) + len(freight):,}', '29,976,554 جنيه', 'حساب المضرب · الخزينة · البرنامج'),
+    ('مصروفات', 'expenses.html', f'{len(exp) + len(pay):,}', '8,393,287 جنيه', 'شيت المصروفات · مسير المرتبات'),
 ]
 h = [f'<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">',
      '<meta name="viewport" content="width=device-width,initial-scale=1">',
@@ -332,6 +333,60 @@ h = [f'<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">',
 for name, href, n, tot, src in cards:
     h.append(f'<a class="linkcard" href="{href}"><b>{name}</b><div class="sub">{src}</div>'
              f'<div style="margin-top:10px">{n} سطر · {tot}</div></a>')
+# ===== تقارير ملخص =====
+R5 = '../التقارير/5-إجمالي-المشتريات-بالأصناف.html'
+R6 = '../التقارير/6-إجمالي-المبيعات-بالأصناف.html'
+R3 = '../التقارير/3-حسابا-الاطنان.html'
+R2 = '../التقارير/2-اجرة-المضرب-والناولون.html'
+R1 = '../التقارير/1-المصروفات-والارباح.html'
+summary = [
+ ('ملخص الشراء', [
+   ('مشتريات البضاعة بعد كل التسويات', '939,328,510 جنيه', R5, 'صفحة المشتريات بالأصناف'),
+   ('إجمالي البضاعة قبل التسويات', '949,815,894 جنيه', R5, 'جدول الأصناف'),
+   ('مرتجع شراء (خصم)', '-32,811 جنيه', R5, '21 سطر return_w'),
+   ('تصحيح 6 سطور شراء ف1', '-7,851,821 جنيه', R5, 'سطور 3069 إلى 3075'),
+   ('وزن المشتريات داخل حساب الطن', '59,109.9 طن', R3, 'حساب الأطنان'),
+   ('تفاصيل الفترة الثانية', f'{len(buy):,} سطر · {money(buy_qty, 1)} طن', 'purchases.html', 'الشراء التفصيلي'),
+ ]),
+ ('ملخص البيع', [
+   ('صافي المبيعات بعد التسويات', '993,636,313 جنيه', R6, 'صفحة المبيعات بالأصناف'),
+   ('مرتجع بيع (خصم)', '-14,282,831 جنيه', R6, 'جدول sadr'),
+   ('تحصيل خزنة ليس إيرادا', '-10,000 جنيه', R6, 'مبيعات ف2 سطر 2708'),
+   ('وزن المبيعات داخل حساب الطن', '57,659.2 طن', R3, 'حساب الأطنان'),
+   ('رصيد المخزون الختامي', '1,650.7 طن', R3, 'حساب الأطنان'),
+   ('تفاصيل الفترة الثانية', f'{len(sell):,} سطر · {money(sell_qty, 1)} طن', 'sales.html', 'البيع التفصيلي'),
+ ]),
+ ('ملخص الضرب والناولون', [
+   ('ضرب أرز في البرنامج', '10,535,500 جنيه', R2, '6 سندات ward'),
+   ('إيجار مضرب خالد تعلب', '2,751,909 جنيه', R2, '14 سحبة'),
+   ('حساب المضرب سحبة 6 إلى 29', '8,445,400 جنيه', R2, '20 سطر'),
+   ('أجرة مضرب 650 للطن', '683,598 جنيه', R2, 'الخزينة ف2'),
+   ('سحبات غير مرصودة بقرار المالك', '2,215,893 جنيه', R2, 'خارج الدفاتر'),
+   ('إجمالي أجرة المضرب', '24,636,000 جنيه', R2, '46 سطر'),
+   ('إجمالي الناولون', '5,338,254 جنيه', R2, '3,393 سطر'),
+   ('المجموع الكلي', '29,976,554 جنيه', R2, 'أجرة + ناولون'),
+ ]),
+ ('ملخص المصروفات والأرباح', [
+   ('مصروفات الفترة الأولى إكسل', '696,747 جنيه', R1, 'بعد نقل الشكاير'),
+   ('مصروفات الفترة الثانية الخزنة', '3,507,661 جنيه', R1, 'حتى 30/9/2025'),
+   ('مصروفات البرنامج', '4,188,879 جنيه', R1, '2/10/2025 إلى 22/8/2026'),
+   ('إجمالي المصروفات بدون الأجرة', '8,393,287 جنيه', R1, 'صفحة المصروفات والأرباح'),
+   ('صافي الربح بعد المصروفات', '15,937,962 جنيه', R1, 'صفحة الأرباح'),
+   ('الربح شامل الأجرة الداخلية', '45,914,516 جنيه', R1, 'صافي الربح + الأجرة'),
+ ]),
+]
+h.append('<div class="sumhdr">تقارير ملخص الفترة الثانية</div>')
+for title, rows in summary:
+    h.append(f'<h2>{title}</h2>')
+    h.append('<div class="tbox"><table><thead><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr></thead><tbody>')
+    for label, value, href, src in rows:
+        last = label.startswith('إجمالي') or label.startswith('المجموع') or label.startswith('الربح') or label.startswith('صافي الربح')
+        cls = ' class="tot"' if last else ''
+        h.append(f'<tr{cls}><td>{label}</td><td class="n">{value}</td>'
+                 f'<td><a class="ref" target="_blank" href="{href}">{src}</a></td></tr>')
+    h.append('</tbody></table></div>')
+h.append('<div class="note">الأرقام دي المعتمدة في تقارير الموقع، وكل بند فيه لينك للتقرير التفصيلي اللي فيه مرجع الملف والشيت والسطر.</div>')
+
 h.append('</div><div class="note">المصادر الأصلية: 2الحركة (بدون باسورد).xlsm · حركه تعديل (بدون باسورد).xlsx · الخزينة.xlsx · كشف البرنامج 22/8/2026. '
          'الصفحات دي تعرض التفاصيل الخام، والأرقام المعتمدة النهائية موجودة في التقارير المجمعة في الصفحة الرئيسية للموقع.</div>')
 h.append('</div></body></html>')
