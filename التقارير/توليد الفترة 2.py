@@ -29,7 +29,8 @@ def s(v):
 
 
 def money(v, dp=2):
-    return f'{v:,.{dp}f}'
+    v = float(v)
+    return f'({abs(v):,.{dp}f})' if v < 0 else f'{v:,.{dp}f}'
 
 
 CSS = """
@@ -335,20 +336,22 @@ for name, href, n, tot, src in cards:
 freight_total = sum(x['val'] for x in freight if x['sid'] != 117)
 buy_ret_total = sum(x['val'] for x in buy_ret)
 sell_ret_total = sum(x['val'] for x in sell_ret)
+top_sup = next((x for x in sup_rows if s(x['name'])), sup_rows[0])
+top_cus = next((x for x in cus_rows if s(x['name'])), cus_rows[0])
 summary = [
  ('ملخص الشراء', [
    ('قيمة مشتريات الفترة الثانية', f'{money(buy_val)} جنيه', 'purchases.html', 'تفاصيل الشراء'),
    ('وزن المشتريات', f'{money(buy_qty, 2)} طن', 'purchases.html', 'تفاصيل الشراء'),
    ('عدد السطور', f'{len(buy):,} سطر', 'purchases.html', 'تفاصيل الشراء'),
    ('مرتجع الشراء', f'{len(buy_ret)} سطر · {money(buy_ret_total)} جنيه', 'purchases.html', 'تفاصيل الشراء'),
-   ('أعلى مورد قيمة', f'{sup_rows[0]["name"]} · {money(sup_rows[0]["val"])} جنيه', 'purchases.html', 'أعلى الموردين'),
+   ('أعلى مورد قيمة', f'{s(top_sup["name"])} · {money(abs(top_sup["val"]))} جنيه', 'purchases.html', 'أعلى الموردين'),
  ]),
  ('ملخص البيع', [
    ('قيمة مبيعات الفترة الثانية', f'{money(sell_val)} جنيه', 'sales.html', 'تفاصيل البيع'),
    ('وزن المبيعات', f'{money(sell_qty, 2)} طن', 'sales.html', 'تفاصيل البيع'),
    ('عدد السطور', f'{len(sell):,} سطر', 'sales.html', 'تفاصيل البيع'),
    ('مرتجع البيع', f'{len(sell_ret)} سطر · {money(sell_ret_total)} جنيه', 'sales.html', 'تفاصيل البيع'),
-   ('أعلى عميل قيمة', f'{cus_rows[0]["name"]} · {money(cus_rows[0]["val"])} جنيه', 'sales.html', 'أعلى العملاء'),
+   ('أعلى عميل قيمة', f'{s(top_cus["name"])} · {money(abs(top_cus["val"]))} جنيه', 'sales.html', 'أعلى العملاء'),
  ]),
  ('ملخص الضرب والناولون', [
    ('أجرة المضرب من حساب المضرب', '8,445,400.00 جنيه', 'milling-freight.html', 'حساب المضرب'),
@@ -363,7 +366,7 @@ summary = [
    ('إجمالي المصروفات والمرتبات', f'{money(exp_total + pay_total)} جنيه', 'expenses.html', 'كل البنود'),
  ]),
 ]
-h.append('<div class="sumhdr">تقارير ملخص الفترة الثانية</div>')
+h.append('</div><div class="sumhdr">تقارير ملخص الفترة الثانية</div>')
 for title, rows in summary:
     h.append(f'<h2>{title}</h2>')
     h.append('<div class="tbox"><table><thead><tr><th>البند</th><th class="n">القيمة</th><th>المرجع</th></tr></thead><tbody>')
@@ -374,7 +377,7 @@ for title, rows in summary:
                  f'<td><a class="ref" target="_blank" href="{href}">{src}</a></td></tr>')
     h.append('</tbody></table></div>')
 h.append('<div class="note">كل الأرقام والتفاصيل في هذه الصفحة خاصة بالفترة الثانية فقط، وكل بند يفتح التفاصيل والمرجع الأصلي للملف والشيت والسطر.</div>')
-h.append('</div><div class="note">المصادر الأصلية للفترة الثانية فقط: 2الحركة (بدون باسورد).xlsm · حركه تعديل (بدون باسورد).xlsx · الخزينة.xlsx. كل صفحة تعرض تفاصيل الفترة الثانية بمرجع كل سطر.</div>')
+h.append('<div class="note">المصادر الأصلية للفترة الثانية فقط: 2الحركة (بدون باسورد).xlsm · حركه تعديل (بدون باسورد).xlsx · الخزينة.xlsx. كل صفحة تعرض تفاصيل الفترة الثانية بمرجع كل سطر.</div>')
 h.append('</div></body></html>')
 write('index.html', '\n'.join(h))
 print('تم')
