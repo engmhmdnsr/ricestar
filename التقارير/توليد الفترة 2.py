@@ -4,7 +4,7 @@ import os, json, io, math
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'data')
-OUT = os.path.join(ROOT, 'الفترة-2')
+OUT = os.path.join(ROOT, 'period-2')
 os.makedirs(OUT, exist_ok=True)
 
 
@@ -172,7 +172,7 @@ SC = [dict(t='م', k='n'), dict(t='المورد', k='name'), dict(t='القيم�
 for i, x in enumerate(buy, 1): x['n'] = i
 for i, x in enumerate(sup_rows, 1): x['n'] = i
 
-write('شراء.html', page(
+write('purchases.html', page(
     'شراء الفترة الثانية',
     'المصدر: 2الحركة (بدون باسورد).xlsm · شيت مشتريات وموردين · كل سطر مرتبط بالصف الأصلي في قاعدة البيانات',
     [('buy', f'تفاصيل المشتريات ({len(buy):,} سطر)',
@@ -204,7 +204,7 @@ VC = [dict(t='م', k='n'), dict(t='التاريخ', k='date'), dict(t='العم�
       dict(t='السحبة', k='draw'), dict(t='المصدر', k='ref', ref=1)]
 for i, x in enumerate(sell, 1): x['n'] = i
 for i, x in enumerate(cus_rows, 1): x['n'] = i
-write('بيع.html', page(
+write('sales.html', page(
     'بيع الفترة الثانية',
     'المصدر: 2الحركة (بدون باسورد).xlsm · شيت مبيعات وعملاء · كل سطر مرتبط بالصف الأصلي في قاعدة البيانات',
     [('sell', f'تفاصيل المبيعات ({len(sell):,} سطر)',
@@ -261,7 +261,7 @@ MC = [dict(t='م', k='n'), dict(t='التاريخ', k='date'), dict(t='البي�
 FC = [dict(t='م', k='n'), dict(t='التاريخ', k='date'), dict(t='الجهة', k='who'),
       dict(t='البيان', k='byan'), dict(t='الصنف', k='item'),
       dict(t='القيمة جنيه', k='val', n=1), dict(t='الملف', k='src'), dict(t='المصدر', k='ref', ref=1)]
-write('ضرب-وناولون.html', page(
+write('milling-freight.html', page(
     'ضرب وناولون الفترة الثانية',
     'المصادر: حركه تعديل · شيت حساب المضرب · 2الحركة · الخزينة · كشف البرنامج (ward وsadr)',
     [('mill', f'حساب المضرب ({len(mill):,} سطر)',
@@ -304,7 +304,7 @@ XD = [dict(t='م', k='n'), dict(t='التاريخ', k='date'), dict(t='النو�
 PC = [dict(t='م', k='n'), dict(t='التاريخ', k='date'), dict(t='الاسم', k='name'),
       dict(t='شعير', k='worker'), dict(t='سرس', k='barley'), dict(t='أبيض', k='white'),
       dict(t='القيمة جنيه', k='val', n=1), dict(t='المصدر', k='ref', ref=1)]
-write('مصروفات.html', page(
+write('expenses.html', page(
     'مصروفات الفترة الثانية',
     'المصادر: 2الحركة · شيت مصروفات ومسير مرتبات · مع مصروفات البرنامج من كشف 22/8/2026',
     [('exsum', f'ملخص المصروفات ({len(expsum)} بند)',
@@ -319,10 +319,10 @@ write('مصروفات.html', page(
 
 # ============ الصفحة الرئيسية ============
 cards = [
-    ('شراء', 'شراء.html', f'{len(buy):,}', f'{money(buy_qty, 1)} طن', 'مشتريات وموردين · ميزان الموردين'),
-    ('بيع', 'بيع.html', f'{len(sell):,}', f'{money(sell_qty, 1)} طن', 'مبيعات وعملاء · ميزان العملاء'),
-    ('ضرب وناولون', 'ضرب-وناولون.html', f'{len(mill) + len(freight):,}', '22,420,107.44 جنيه', 'حساب المضرب · الخزينة · البرنامج'),
-    ('مصروفات', 'مصروفات.html', f'{len(exp) + len(pay):,}', '6,982,859.50 جنيه', 'شيت المصروفات · مسير المرتبات'),
+    ('شراء', 'purchases.html', f'{len(buy):,}', f'{money(buy_qty, 1)} طن', 'مشتريات وموردين · ميزان الموردين'),
+    ('بيع', 'sales.html', f'{len(sell):,}', f'{money(sell_qty, 1)} طن', 'مبيعات وعملاء · ميزان العملاء'),
+    ('ضرب وناولون', 'milling-freight.html', f'{len(mill) + len(freight):,}', '22,420,107.44 جنيه', 'حساب المضرب · الخزينة · البرنامج'),
+    ('مصروفات', 'expenses.html', f'{len(exp) + len(pay):,}', '6,982,859.50 جنيه', 'شيت المصروفات · مسير المرتبات'),
 ]
 h = [f'<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">',
      '<meta name="viewport" content="width=device-width,initial-scale=1">',
